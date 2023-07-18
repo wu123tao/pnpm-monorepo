@@ -1,0 +1,11 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "pipeline": {
+        "build:utils": {
+            "outputs": ["dist/**/*"]
+        },
+        "dev:vue3-eslint":{
+            "dependsOn": ["build:utils"]
+        }
+    }
+}

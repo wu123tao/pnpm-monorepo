@@ -1,0 +1,12 @@
+{
+  "name": "pnpm-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "devDependencies": {
+    "@pnpm-monorepo/eslint-config-custom": "workspace:^0.0.0",
+    "@vue/tsconfig": "^0.4.0",
+    "prettier": "^3.0.0",
+    "turbo": "^1.10.8",
+    "typescript": "^5.1.6"
+  }
+}

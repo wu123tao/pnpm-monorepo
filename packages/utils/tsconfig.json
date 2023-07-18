@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "sourceMap": true,
+        "declaration": true,
+        "skipLibCheck": true
+    },
+  }
