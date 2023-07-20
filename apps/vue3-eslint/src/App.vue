@@ -1,42 +1,64 @@
 <template>
-    <div class="container">
-        <a target="_blank">
-            <img src="/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a target="_blank">
-            <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-        </a>
-        <el-button type="primary" @click="handleClick">{{ num }}</el-button>
-    </div>
+    <edit-table v-model="tableData" selectable :columns="columns">
+        <template #operation>
+            <el-button @click="handleClick">点击</el-button>
+        </template>
+    </edit-table>
 </template>
 
 <script setup lang="ts">
-import { sum } from '@pnpm-monorepo/utils';
-console.log(sum(1, 2));
+import type { EditTableColumn } from './components/config';
+import editTable from './components/edit-table.vue';
 
-const num = ref<number>(0);
+const columns: EditTableColumn[] = [
+    {
+        label: '日期',
+        prop: 'date',
+        // editable: true,
+        editComponent: 'el-date-picker',
+        componentProps: {
+            valueFormat: 'YYYY-MM-DD',
+        },
+        elFormItemProps: { rules: [{ required: true, message: '日期' }] },
+    },
+    {
+        label: '姓名',
+        prop: 'name',
+    },
+    {
+        label: '地址',
+        prop: 'address',
+    },
+];
+
+const tableData = ref([
+    {
+        id: 1,
+        date: '',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+        id: 2,
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+        id: 3,
+        date: '2016-05-04',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+        id: 4,
+        date: '2016-05-01',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+    },
+]);
 
 function handleClick() {
-    num.value = sum(num.value, 1);
-    ElMessage.success('123');
+    console.log(tableData.value);
 }
 </script>
-
-<style scoped>
-.container {
-    display: flex;
-    justify-content: center;
-}
-.logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-}
-.logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-    filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
