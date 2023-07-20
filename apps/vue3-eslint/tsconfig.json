@@ -1,9 +1,12 @@
 {
+  "extends":"../../tsconfig.json",
   "compilerOptions": {
+    "types": ["element-plus/global"],
+    "moduleResolution": "Node",
     "paths": {
       "@/*": [
           "./src/*"
-      ]
+      ],
   }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],

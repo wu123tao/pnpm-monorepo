@@ -5,7 +5,9 @@
             "outputs": ["dist/**/*"]
         },
         "dev:vue3-eslint":{
-            "dependsOn": ["build:utils"]
+            "cache": false,
+            "persistent": true,
+            "dependsOn": ["^build:utils"]
         }
     }
 }

@@ -6,12 +6,20 @@
         <a target="_blank">
             <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
         </a>
+        <el-button type="primary" @click="handleClick">{{ num }}</el-button>
     </div>
 </template>
 
 <script setup lang="ts">
 import { sum } from '@pnpm-monorepo/utils';
 console.log(sum(1, 2));
+
+const num = ref<number>(0);
+
+function handleClick() {
+    num.value = sum(num.value, 1);
+    ElMessage.success('123');
+}
 </script>
 
 <style scoped>
