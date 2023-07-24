@@ -11,9 +11,9 @@ const files = require('./lib/file');
 
 clear();
 
-console.log(chalk.yellow(figlet.textSync('Generate API', { horizontalLayout: 'full' })));
+console.log(chalk.yellow(figlet.textSync('Generate Utils', { horizontalLayout: 'full' })));
 
 async function run() {
-    await files.createPermission();
+    await files.createQuestion();
 }
 run();
