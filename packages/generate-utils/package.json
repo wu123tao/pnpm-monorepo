@@ -6,6 +6,9 @@
   "bin": {
     "api": "index.js"
   },
+  "scripts": {
+    "generator2": "npx openapi-generator-cli generate -c ./openapitools.json --generator-key v2.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

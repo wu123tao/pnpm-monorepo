@@ -56,12 +56,27 @@ async function writePermission(url, directoryName) {
  */
 async function writeApi(url, directoryName) {
     // http://192.168.3.42:8002/v3/api-docs?group=%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1
-    console.log(os.tmpdir());
-    console.log(`${process.cwd()}/src/${directoryName}`);
 
+    // TODO 提前在项目中的 {{ directoryName }}编写 ignore 文件
+    fs.copyFileSync(
+        path.resolve(__dirname, '../ignore/.openapi-generator-ignore'),
+        `${process.cwd()}/src/${directoryName}/.openapi-generator-ignore`
+    );
+
+    // TODO 编写api json文件
     const res = await getAPIJson(url);
-    fs.writeFileSync(`src/${directoryName}/api.json`, JSON.stringify(res));
-    shell.exec(`npx prettier src/${directoryName}/api.json --write`);
+    fs.writeFileSync(`${os.tmpdir()}/api.json`, JSON.stringify(res));
+
+    // 执行脚本
+    shell.exec(
+        `${path.resolve(__dirname, '../node_modules/.bin/openapi-generator-cli')}\
+        generate\
+        -i ${os.tmpdir()}/api.json\
+        -g typescript-axios\
+        -t ${path.resolve(__dirname, '../api-template')}\
+        -p=apiPackage=api,modelPackage=interface,withSeparateModelsAndApi=true,withInterfaces=true,supportsES6=true\
+        -o ${process.cwd()}/src/${directoryName}`
+    );
 }
 
 module.exports = { getCurrentDirectory, directoryExists, createQuestion };
