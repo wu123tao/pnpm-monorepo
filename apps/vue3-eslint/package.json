@@ -17,7 +17,6 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@pnpm-monorepo/generate-utils": "workspace:^1.0.0",
     "@types/lodash-es": "^4.17.8",
     "@types/node": "^20.4.5",
     "@vitejs/plugin-vue": "^4.2.3",
