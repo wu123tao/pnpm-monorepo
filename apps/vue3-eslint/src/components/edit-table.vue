@@ -138,16 +138,18 @@ const emits = defineEmits<{
     (e: 'delete', data: Data): void;
 }>();
 
+const { modelValue } = { ...props };
+
 const formRef = ref<FormInstance>();
 
 const tableRef = ref<TableInstance>();
 
 const formData = ref<{ tableData: Data[] }>({
-    tableData: cloneDeep(props.modelValue),
+    tableData: cloneDeep(modelValue),
 });
 
 watchEffect(() => {
-    formData.value.tableData = cloneDeep(props.modelValue);
+    formData.value.tableData = cloneDeep(modelValue);
 });
 
 const tableEditStatus = ref<{ rowEditStatus?: number; columnEditStatus?: number }>({
