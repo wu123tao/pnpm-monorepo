@@ -1,0 +1,990 @@
+{
+    "基础数据": {
+        "基础资料": {
+            "客供列表": {
+                "供应商列表": {
+                    "导出": "supplier:export",
+                    "供应商新增": "supplier:insert",
+                    "供应商编辑": "supplier:edit",
+                    "供应商删除": "supplier:delete",
+                    "供应商导入": "supplier:import"
+                },
+                "客户列表": {
+                    "客户新增": "customer:insert",
+                    "客户编辑": "customer:edit",
+                    "客户删除": "customer:delete",
+                    "导出": "customer:export",
+                    "客户导入": "customer:import"
+                }
+            },
+            "检测配置": {
+                "编辑": "inspect:config:edit",
+                "删除": "inspect:config:delete",
+                "新增": "inspect:config:insert"
+            },
+            "物料列表": {
+                "编辑": "material:edit",
+                "删除": "material:delete",
+                "导出": "material:export",
+                "导入": "material:import",
+                "新增": "material:insert"
+            },
+            "计量单位": {
+                "单位设置": {
+                    "编辑": "unit:edit",
+                    "删除": "unit:delete",
+                    "导出": "unit:export",
+                    "导入": "unit:import",
+                    "新增": "unit:insert"
+                },
+                "单位换算": {
+                    "编辑": "unit:conversion:edit",
+                    "删除": "unit:conversion:delete",
+                    "导出": "unit:conversion:export",
+                    "导入": "unit:conversion:import",
+                    "新增": "unit:conversion:insert"
+                }
+            },
+            "质量资料": { "检验方案": { "变更记录": { "查询": "standard:history:select" } } },
+            "检验方案": { "变更记录": { "查询详情": "standard:history:detail:select" } },
+            "数据字典": {
+                "字典表编辑": "dict:manage:edit",
+                "字典表导出": "dict:manage:export",
+                "字典表导入": "dict:item:import",
+                "字典表删除": "dict:manage:delete",
+                "字典表新增": "dict:manage:insert"
+            }
+        },
+        "生产资料": {
+            "生产要求": {
+                "编辑": "production:request:edit",
+                "删除": "production:request:delete",
+                "导出": "production:request:export",
+                "导入": "production:request:import",
+                "新增": "production:request:insert"
+            },
+            "车间档案": {
+                "取样点": {
+                    "编辑": "production:sample:point:edit",
+                    "删除": "production:sample:point:delete",
+                    "导出": "production:sample:point:export",
+                    "导入": "production:sample:point:import",
+                    "新增": "production:sample:point:insert"
+                },
+                "车间": {
+                    "编辑": "production:workplace:edit",
+                    "删除": "production:workplace:delete",
+                    "导出": "production:workplace:export",
+                    "导入": "production:workplace:import",
+                    "新增": "production:workplace:insert"
+                }
+            },
+            "电子秤档案": {
+                "编辑": "production:scale:edit",
+                "删除": "production:scale:delete",
+                "导出": "production:scale:export",
+                "导入": "production:scale:import",
+                "新增": "production:scale:insert"
+            },
+            "附件档案": {
+                "编辑": "production:tray:edit",
+                "删除": "production:tray:delete",
+                "导出": "production:tray:export",
+                "导入": "production:tray:import",
+                "新增": "production:tray:insert"
+            }
+        },
+        "质量资料": {
+            "检验项目": {
+                "检验类": {
+                    "编辑": "impurity:component:edit",
+                    "查询": "impurity:component:select",
+                    "删除": "impurity:component:delete",
+                    "导出": "impurity:component:export",
+                    "新增": "impurity:component:insert"
+                },
+                "检验项目设置": {
+                    "编辑": "impurity:edit",
+                    "查询": "impurity:select",
+                    "删除": "impurity:delete",
+                    "导出": "impurity:export",
+                    "新增": "impurity:insert"
+                },
+                "检验方法": {
+                    "编辑": "impurity:method:edit",
+                    "查询": "impurity:method:select",
+                    "删除": "impurity:method:delete",
+                    "导出": "impurity:method:export",
+                    "新增": "impurity:method:insert"
+                }
+            },
+            "判异规则管理": {
+                "查询": "rule:message:select",
+                "授权": "rule:message:relate:empower"
+            },
+            "检验方案": {
+                "编辑": "standard:edit",
+                "查询": "standard:select",
+                "删除": "standard:delete",
+                "导出": "standard:export",
+                "导入": "standard:import",
+                "新增": "standard:insert",
+                "指标查看": "standard:detail:select",
+                "保存": "standard:detail:save",
+                "指标设置": {
+                    "检验项设置查询": "standard:detail:setting:select",
+                    "保存": "standard:detail:setting:save",
+                    "导入": "standard:detail:setting:import",
+                    "检验项设置": { "保存": "standard:detail:out:save" }
+                },
+                "指标设置查询": "standard:detail:setting:out:select"
+            }
+        },
+        "仓库资料": {
+            "包材档案": {
+                "编辑": "cylinder:bottle:edit",
+                "查询": "cylinder:bottle:select",
+                "删除": "cylinder:bottle:delete",
+                "导出": "cylinder:bottle:export",
+                "导入": "cylinder:bottle:import",
+                "新增": "cylinder:bottle:insert"
+            },
+            "条码档案": {
+                "导出": "cylinder:export",
+                "查询": "cylinder:select",
+                "批量建码": "cylinder:insert",
+                "删除": "cylinder:delete",
+                "导入": "cylinder:import"
+            },
+            "物流档案": {
+                "车辆档案": {
+                    "编辑": "logistics:car:edit",
+                    "查询": "logistics:car:select",
+                    "删除": "logistics:car:delete",
+                    "导出": "logistics:car:export",
+                    "导入": "logistics:car:import",
+                    "新增": "logistics:car:insert"
+                },
+                "运输员档案": {
+                    "编辑": "logistics:person:edit",
+                    "查询": "logistics:person:select",
+                    "删除": "logistics:person:delete",
+                    "导出": "logistics:person:export",
+                    "导入": "logistics:person:import",
+                    "新增": "logistics:person:insert"
+                }
+            },
+            "仓库列表": {
+                "编辑": "warehouse:edit",
+                "查询": "warehouse:select",
+                "删除": "warehouse:delete",
+                "导出": "warehouse:export",
+                "导入": "warehouse:import",
+                "新增": "warehouse:insert"
+            },
+            "库存预警": {
+                "编辑": "warehouse:material:edit",
+                "查询": "warehouse:material:select",
+                "删除": "warehouse:material:delete",
+                "导出": "warehouse:material:export",
+                "导入": "warehouse:material:import",
+                "新增": "warehouse:material:insert"
+            }
+        }
+    },
+    "生产管理": {
+        "原料储罐管理": {
+            "编辑": "tank:edit",
+            "删除": "tank:delete",
+            "导出": "tank:export",
+            "新增": "tank:insert"
+        },
+        "充装记录": {
+            "钢瓶充装记录": {
+                "导出": "cylinder:filling:record:export",
+                "处理详情": "cylinder:filling:record:detail"
+            },
+            "槽车充装记录": {
+                "导出": "tank:filling:record:export",
+                "处理详情": "cylinder:filling:record:bucket:detail"
+            }
+        },
+        "充装工单": {
+            "编辑": "filling:work:edit",
+            "审核": "filling:work:audit",
+            "删除": "filling:work:delete",
+            "导出": "filling:work:export",
+            "撤回": "filling:work:return",
+            "新增": "filling:work:insert",
+            "关闭": "filling:work:close"
+        },
+        "处理记录": {
+            "槽车/集装格新瓶处理": { "导出": "tank:new:export", "处理详情": "tank:new:detail" },
+            "钢瓶新瓶处理": { "导出": "cylinder:new:export", "处理详情": "cylinder:new:detail" },
+            "槽车/集装格返厂瓶处理": {
+                "导出": "tank:return:export",
+                "处理详情": "tank:return:detail"
+            },
+            "钢瓶返厂瓶处理": {
+                "导出": "cylinder:return:export",
+                "处理详情": "cylinder:return:detail"
+            },
+            "槽车/集装格外送处理": { "导出": "tank:out:export", "处理详情": "tank:out:detail" },
+            "钢瓶外送处理": { "导出": "cylinder:out:export", "处理详情": "cylinder:out:detail" }
+        },
+        "销售订单": {
+            "编辑": "sales:order:edit",
+            "审核": "sales:order:audit",
+            "删除": "sales:order:delete",
+            "详情": "sales:order:detail",
+            "导出": "sales:order:export",
+            "撤回": "sales:order:return",
+            "新增": "sales:order:insert",
+            "关闭": "sales:order:close"
+        }
+    },
+    "仓储管理": {
+        "出入库管理": {
+            "采购出入库": {
+                "采购入库": {
+                    "到货通知单": {
+                        "编辑": "notice:order:arrival:edit",
+                        "查询": "notice:order:arrival:select",
+                        "删除": "notice:order:arrival:delete",
+                        "导出": "notice:order:arrival:export",
+                        "审核": "notice:order:arrival:check",
+                        "撤回": "notice:order:arrival:return",
+                        "关闭": "notice:order:arrival:close",
+                        "详情": "notice:order:arrival:detail",
+                        "新增": "notice:order:arrival:insert"
+                    },
+                    "采购入厂验收": {
+                        "查询": "notice:order:accept:cylinder:select",
+                        "导出": "notice:order:accept:cylinder:export"
+                    },
+                    "采购入库": {
+                        "查询": "notice:order:material:purchase:select",
+                        "导出": "notice:order:material:purchase:export"
+                    },
+                    "采购入库流水": {
+                        "查询": "notice:order:material:purchase:flow:select",
+                        "导出": "notice:order:material:purchase:flow:export"
+                    }
+                },
+                "采购退料": {
+                    "退料通知单": {
+                        "编辑": "notice:order:return:edit",
+                        "查询": "notice:order:return:select",
+                        "删除": "notice:order:return:delete",
+                        "审核": "notice:order:return:check",
+                        "撤回": "notice:order:return:return",
+                        "关闭": "notice:order:return:close",
+                        "详情": "notice:order:return:detail",
+                        "导出": "notice:order:return:export",
+                        "新增": "notice:order:return:insert"
+                    },
+                    "采购退料单": {
+                        "查询": "notice:order:material:return:select",
+                        "导出": "notice:order:material:return:export"
+                    },
+                    "采购退料流水": {
+                        "查询": "notice:order:material:return:flow:select",
+                        "导出": "notice:order:material:return:flow:export"
+                    }
+                }
+            },
+            "空瓶出入库": {
+                "空瓶领用": {
+                    "空瓶领用申请单": {
+                        "编辑": "apply:order:empty:out:edit",
+                        "删除": "apply:order:empty:out:delete",
+                        "审核": "apply:order:empty:out:check",
+                        "撤回": "apply:order:empty:out:return",
+                        "关闭": "apply:order:empty:out:close",
+                        "导出": "apply:order:empty:out:export",
+                        "详情": "apply:order:empty:out:detail",
+                        "新增": "apply:order:empty:out:insert"
+                    },
+                    "空瓶领用单": {
+                        "查询": "apply:order:material:empty:out:select",
+                        "导出": "apply:order:material:empty:out:export"
+                    },
+                    "空瓶领用流水": {
+                        "查询": "apply:order:material:empty:out:flow:select",
+                        "导出": "apply:order:material:empty:out:flow:export"
+                    }
+                },
+                "空瓶退回": {
+                    "空瓶退回申请单": {
+                        "查询": "apply:order:empty:in:select",
+                        "导出": "apply:order:empty:in:export",
+                        "新增": "apply:order:empty:in:insert",
+                        "审核": "apply:order:empty:in:check",
+                        "撤回": "apply:order:empty:in:return",
+                        "关闭": "apply:order:empty:in:close",
+                        "编辑": "apply:order:empty:in:edit",
+                        "删除": "apply:order:empty:in:delete",
+                        "详情": "apply:order:empty:in:detail"
+                    },
+                    "空瓶退回单": {
+                        "查询": "apply:order:material:empty:in:select",
+                        "导出": "apply:order:material:empty:in:export"
+                    },
+                    "空瓶退回流水": {
+                        "查询": "apply:order:material:empty:in:flow:select",
+                        "导出": "apply:order:material:empty:in:flow:export"
+                    }
+                }
+            },
+            "空瓶出入厂": {
+                "空瓶入厂": {
+                    "新瓶入厂流水": {
+                        "查询": "new:empty:cylinder:in:select",
+                        "导出": "new:empty:cylinder:in:export"
+                    },
+                    "返回空瓶入厂流水": {
+                        "查询": "return:empty:cylinder:in:select",
+                        "导出": "return:empty:cylinder:in:export"
+                    },
+                    "维修空瓶入厂流水": {
+                        "查询": "maintain:empty:cylinder:in:select",
+                        "导出": "maintain:empty:cylinder:in:export"
+                    },
+                    "检验空瓶入厂流水": {
+                        "查询": "check:empty:cylinder:in:select",
+                        "导出": "check:empty:cylinder:in:export"
+                    }
+                },
+                "空瓶出厂": {
+                    "检验空瓶出厂流水": {
+                        "导出": "check:empty:cylinder:out:export",
+                        "查询": "check:empty:cylinder:out:select"
+                    },
+                    "维修空瓶出厂流水": {
+                        "查询": "maintain:empty:cylinder:out:select",
+                        "导出": "maintain:empty:cylinder:out:export"
+                    }
+                }
+            },
+            "其他物料出入库": {
+                "其他入库": {
+                    "其他物料入库流水": {
+                        "查询": "other:order:flow:select",
+                        "导出": "other:order:flow:export"
+                    },
+                    "其他物料入库单": { "查询": "other:order:select", "导出": "other:order:export" }
+                },
+                "其他出库": {
+                    "其他物料出库流水": {
+                        "查询": "other:order:flow:out:select",
+                        "导出": "other:order:flow:out:export"
+                    },
+                    "其他物料出库单": {
+                        "查询": "other:order:out:select",
+                        "导出": "other:order:out:export"
+                    }
+                }
+            },
+            "生产出入库": {
+                "生产入库": {
+                    "生产入库申请单": {
+                        "编辑": "apply:order:production:in:edit",
+                        "查询": "apply:order:production:in:select",
+                        "关闭": "apply:order:production:in:close",
+                        "详情": "apply:order:production:in:detail",
+                        "导出": "apply:order:production:in:export"
+                    },
+                    "生产入库单": {
+                        "查询": "apply:order:material:production:in:select",
+                        "导出": "apply:order:material:production:in:export"
+                    },
+                    "生产入库流水": {
+                        "查询": "apply:order:material:production:in:flow:select",
+                        "导出": "apply:order:material:production:in:flow:export"
+                    }
+                },
+                "生产领料": {
+                    "生产领料申请单": {
+                        "编辑": "apply:order:production:receive:edit",
+                        "查询": "apply:order:production:receive:select",
+                        "删除": "apply:order:production:receive:delete",
+                        "审核": "apply:order:production:receive:check",
+                        "撤回": "apply:order:production:receive:return",
+                        "关闭": "apply:order:production:receive:close",
+                        "详情": "apply:order:production:receive:detail",
+                        "导出": "apply:order:production:receive:export",
+                        "新增": "apply:order:production:receive:insert"
+                    },
+                    "生产领料单": {
+                        "查询": "apply:order:material:production:receive:select",
+                        "导出": "apply:order:material:production:receive:export"
+                    },
+                    "生产领料流水": {
+                        "查询": "apply:order:material:production:receive:flow:select",
+                        "导出": "apply:order:material:production:receive:flow:export"
+                    }
+                },
+                "生产退料": {
+                    "生产退料申请单": {
+                        "编辑": "apply:order:production:return:edit",
+                        "查询": "apply:order:production:return:select",
+                        "删除": "apply:order:production:return:delete",
+                        "审核": "apply:order:production:return:check",
+                        "撤回": "apply:order:production:return:return",
+                        "关闭": "apply:order:production:return:close",
+                        "详情": "apply:order:production:return:detail",
+                        "导出": "apply:order:production:return:export",
+                        "新增": "apply:order:production:return:insert"
+                    },
+                    "生产退料单": {
+                        "查询": "apply:order:material:production:return:select",
+                        "导出": "apply:order:material:production:return:export"
+                    },
+                    "生产退料流水": {
+                        "查询": "apply:order:material:production:return:flow:select",
+                        "导出": "apply:order:material:production:return:flow:export"
+                    }
+                },
+                "生产退库": {
+                    "生产退库申请单": {
+                        "编辑": "apply:order:production:return:warehouse:edit",
+                        "查询": "apply:order:production:return:warehouse:select",
+                        "删除": "apply:order:production:return:warehouse:delete",
+                        "导出": "apply:order:production:return:warehouse:export",
+                        "审核": "apply:order:production:return:warehouse:check",
+                        "撤回": "apply:order:production:return:warehouse:return",
+                        "关闭": "apply:order:production:return:warehouse:close",
+                        "详情": "apply:order:production:return:warehouse:detail",
+                        "新增": "apply:order:production:return:warehouse:insert"
+                    },
+                    "生产退库单": {
+                        "查询": "apply:order:material:production:return:warehouse:select",
+                        "导出": "apply:order:material:production:return:warehouse:export"
+                    },
+                    "生产退库流水": {
+                        "查询": "apply:order:material:production:return:warehouse:flow:select",
+                        "导出": "apply:order:material:production:return:warehouse:flow:export"
+                    }
+                }
+            },
+            "销售出入库": {
+                "销售出库": {
+                    "发货通知单": {
+                        "编辑": "notice:order:sales:edit",
+                        "查询": "notice:order:sales:select",
+                        "删除": "notice:order:sales:delete",
+                        "审核": "notice:order:sales:check",
+                        "撤回": "notice:order:sales:return",
+                        "关闭": "notice:order:sales:close",
+                        "详情": "notice:order:sales:detail",
+                        "导出": "notice:order:sales:export",
+                        "新增": "notice:order:sales:insert"
+                    },
+                    "销售出库单": {
+                        "查询": "notice:order:material:sales:select",
+                        "导出": "notice:order:material:sales:export"
+                    },
+                    "备货点检流水": {
+                        "查询": "notice:order:material:stock:up:select",
+                        "导出": "notice:order:material:stock:up:export"
+                    },
+                    "OQC流水": {
+                        "查询": "notice:order:material:oqc:select",
+                        "导出": "notice:order:material:oqc:export"
+                    },
+                    "物流确认": {
+                        "查询": "notice:order:material:logistics:select",
+                        "导出": "notice:order:material:logistics:export"
+                    },
+                    "客户接收": {
+                        "查询": "notice:order:material:customer:receive:select",
+                        "导出": "notice:order:material:customer:receive:export"
+                    }
+                },
+                "销售退货": {
+                    "退货通知单": {
+                        "编辑": "notice:order:sales:return:edit",
+                        "查询": "notice:order:sales:return:select",
+                        "删除": "notice:order:sales:return:delete",
+                        "审核": "notice:order:sales:return:check",
+                        "撤回": "notice:order:sales:return:return",
+                        "关闭": "notice:order:sales:return:close",
+                        "详情": "notice:order:sales:return:detail",
+                        "导出": "notice:order:sales:return:export",
+                        "新增": "notice:order:sales:return:insert"
+                    },
+                    "销售退货单": {
+                        "查询": "notice:order:material:sales:return:select",
+                        "导出": "notice:order:material:sales:return:export"
+                    },
+                    "销售退货流水": {
+                        "查询": "notice:order:material:sales:return:flow:select",
+                        "导出": "notice:order:material:sales:return:flow:export"
+                    }
+                }
+            }
+        },
+        "仓储看板": {
+            "存瓶看板": {
+                "厂内存瓶": {
+                    "查询": "factory:warehouse:board:select",
+                    "导出": "factory:warehouse:board:export"
+                },
+                "客户存瓶": {
+                    "查询": "customer:warehouse:board:select",
+                    "导出": "customer:warehouse:board:export",
+                    "详情": "customer:warehouse:board:detail"
+                },
+                "外送检验存瓶": {
+                    "查询": "check:warehouse:board:select",
+                    "导出": "check:warehouse:board:export"
+                },
+                "外送维修存瓶": {
+                    "查询": "maintain:warehouse:board:select",
+                    "导出": "maintain:warehouse:board:export"
+                }
+            },
+            "库存统计": {
+                "物料库存看板": {
+                    "查询": "material:warehouse:board:select",
+                    "导出": "material:warehouse:board:export"
+                },
+                "空瓶库存看板": {
+                    "查询": "cylinder:warehouse:board:select",
+                    "导出": "cylinder:warehouse:board:export"
+                }
+            }
+        },
+        "库内管理": {
+            "气瓶报废": { "导出": "cylinder:scrap:export", "查询": "cylinder:scrap:select" },
+            "物料巡检": {
+                "导出": "material:inspection:export",
+                "查询": "material:inspection:select"
+            },
+            "物料移库": { "导出": "material:move:export", "查询": "material:move:select" },
+            "物料转序": { "导出": "material:turn:export", "查询": "material:turn:select" }
+        }
+    },
+    "质量管理": {
+        "质量纠正预防": {
+            "纠正预防": {
+                "内部整改": {
+                    "编辑": "correct:internal:improve:edit",
+                    "查询": "correct:internal:improve:select",
+                    "删除": "correct:internal:improve:delete",
+                    "导出": "correct:internal:improve:export",
+                    "审核": "correct:internal:improve:check",
+                    "撤回": "correct:internal:improve:return",
+                    "关闭": "correct:internal:improve:close",
+                    "流转记录": "correct:internal:improve:phase:show",
+                    "新增": "correct:internal:improve:insert"
+                },
+                "整改处理": {
+                    "未处理": {
+                        "查询": "correct:internal:improve:no:handle:select",
+                        "导出": "correct:internal:improve:no:handle:export",
+                        "整改处理": "correct:internal:improve:no:handle:improve",
+                        "流转记录": "correct:internal:improve:no:handle:phase:show"
+                    },
+                    "待确认": {
+                        "查询": "correct:internal:improve:wait:confirm:select",
+                        "导出": "correct:internal:improve:wait:confirm:export",
+                        "整改确认": "correct:internal:improve:wait:confirm:confirm",
+                        "驳回": "correct:internal:improve:wait:confirm:back",
+                        "流转记录": "correct:internal:improve:wait:confirm:phase:show"
+                    },
+                    "已完成": {
+                        "查询": "correct:internal:improve:finish:select",
+                        "导出": "correct:internal:improve:finish:export",
+                        "流转记录": "correct:internal:improve:finish:phase:show"
+                    }
+                }
+            },
+            "不合格处置": {
+                "采购来料检不合格处置": {
+                    "未处理": {
+                        "未处理查询": "correct:prevention:purchase:select",
+                        "未处理导出": "correct:prevention:purchase:export",
+                        "调查": "correct:prevention:purchase:survey",
+                        "未处理调查详情": "correct:prevention:detail:purchase:select",
+                        "处理": "correct:prevention:purchase:handle"
+                    },
+                    "已处理": {
+                        "查询": "correct:prevention:purchase:has:handle:select",
+                        "导出": "correct:prevention:purchase:has:handle:export",
+                        "调查": "correct:prevention:has:handle:purchase:survey",
+                        "调查详情": "correct:prevention:detail:has:handle:purchase:select"
+                    }
+                },
+                "生产过程检不合格处置": {
+                    "未处理": {
+                        "查询": "correct:prevention:production:select",
+                        "导出": "correct:prevention:production:export",
+                        "调查": "correct:prevention:production:survey",
+                        "调查详情": "correct:prevention:detail:production:no:handle",
+                        "处理": "correct:prevention:production:handle"
+                    },
+                    "已处理": {
+                        "查询": "correct:prevention:production:has:handle:select",
+                        "导出": "correct:prevention:production:has:handle:export",
+                        "调查": "correct:prevention:production:has:handle:survey",
+                        "调查详情": "correct:prevention:detail:production:has:handle"
+                    }
+                },
+                "生产物料检不合格处置": {
+                    "未处理": {
+                        "查询": "correct:prevention:product:material:select",
+                        "导出": "correct:prevention:product:material:export",
+                        "调查": "correct:prevention:product:material:survey",
+                        "调查详情": "correct:prevention:detail:product:material:no:handle",
+                        "处理": "correct:prevention:material:handle"
+                    },
+                    "已处理": {
+                        "已处理查询": "correct:prevention:product:material:has:handle:select",
+                        "导出": "correct:prevention:product:material:has:handle:export",
+                        "调查": "correct:prevention:product:material:has:handle:survey",
+                        "调查详情": "correct:prevention:detail:product:material:has:handle"
+                    }
+                }
+            }
+        },
+        "分析设备台账": {
+            "设备档案": {
+                "编辑": "equipment:edit",
+                "删除": "equipment:delete",
+                "导出": "equipment:export",
+                "新增": "equipment:insert"
+            }
+        },
+        "质量检验管理": {
+            "检验数据台账": {
+                "充装管路": {
+                    "详情查询": "quality:inspection:data:fillingPipeline:detail:select",
+                    "导出": "quality:inspection:data:fillingPipeline:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:fillingPipeline:impurity:detail",
+                            "查询": "quality:inspection:data:fillingPipeline:impurity:select",
+                            "修改数据提交": "quality:inspection:data:fillingPipeline:impurity:edit",
+                            "导出": "quality:inspection:data:fillingPipeline:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:fillingPipeline:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:fillingPipeline:detail:log:select",
+                            "导出": "quality:inspection:data:fillingPipeline:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:fillingPipeline:select"
+                },
+                "生产物料": {
+                    "详情查询": "quality:inspection:data:produceMaterial:detail:select",
+                    "导出": "quality:inspection:data:produceMaterial:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:produceMaterial:impurity:detail",
+                            "查询": "quality:inspection:data:produceMaterial:impurity:select",
+                            "修改数据提交": "quality:inspection:data:produceMaterial:impurity:edit",
+                            "导出": "quality:inspection:data:produceMaterial:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:produceMaterial:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:produceMaterial:detail:log:select",
+                            "导出": "quality:inspection:data:produceMaterial:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:produceMaterial:select"
+                },
+                "生产过程": {
+                    "详情查询": "quality:inspection:data:produceProcess:detail:select",
+                    "导出": "quality:inspection:data:produceProcess:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:produceProcess:impurity:detail",
+                            "查询": "quality:inspection:data:produceProcess:impurity:select",
+                            "修改数据提交": "quality:inspection:data:produceProcess:impurity:edit",
+                            "导出": "quality:inspection:data:produceProcess:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:produceProcess:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:produceProcess:detail:log:select",
+                            "导出": "quality:inspection:data:produceProcess:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:produceProcess:select"
+                },
+                "采购来料": {
+                    "详情查询": "quality:inspection:data:purchase:Incoming:Material:detail:select",
+                    "导出": "quality:inspection:data:purchaseIncomingMaterial:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:purchaseIncomingMaterial:impurity:detail",
+                            "查询": "quality:inspection:data:purchaseIncomingMaterial:impurity:select",
+                            "修改数据提交": "quality:inspection:data:purchaseIncomingMaterial:impurity:edit",
+                            "导出": "quality:inspection:data:purchaseIncomingMaterial:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:purchaseIncomingMaterial:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:purchaseIncomingMaterial:detail:log:select",
+                            "导出": "quality:inspection:data:purchaseIncomingMaterial:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:purchaseIncomingMaterial:select"
+                },
+                "库内复检及退货": {
+                    "详情查询": "quality:inspection:data:recheckAndReturn:detail:select",
+                    "导出": "quality:inspection:data:recheckAndReturn:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:recheckAndReturn:impurity:detail",
+                            "查询": "quality:inspection:data:recheckAndReturn:impurity:select",
+                            "修改数据提交": "quality:inspection:data:recheckAndReturn:impurity:edit",
+                            "导出": "quality:inspection:data:recheckAndReturn:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:recheckAndReturn:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:recheckAndReturn:detail:log:select",
+                            "导出": "quality:inspection:data:recheckAndReturn:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:recheckAndReturn:select"
+                },
+                "置换瓶": {
+                    "详情查询": "quality:inspection:data:replacementBottle:detail:select",
+                    "导出": "quality:inspection:data:replacementBottle:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:replacementBottle:impurity:detail",
+                            "查询": "quality:inspection:data:replacementBottle:impurity:select",
+                            "修改数据提交": "quality:inspection:data:replacementBottle:impurity:edit",
+                            "导出": "quality:inspection:data:replacementBottle:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:replacementBottle:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:replacementBottle:detail:log:select",
+                            "导出": "quality:inspection:data:replacementBottle:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:replacementBottle:select"
+                },
+                "残气瓶": {
+                    "详情查询": "quality:inspection:data:residualGasBottle:detail:select",
+                    "导出": "quality:inspection:data:residualGasBottle:export",
+                    "详情": {
+                        "分析数据": {
+                            "修改数据查询": "quality:inspection:data:residualGasBottle:impurity:detail",
+                            "查询": "quality:inspection:data:residualGasBottle:impurity:select",
+                            "修改数据提交": "quality:inspection:data:residualGasBottle:impurity:edit",
+                            "导出": "quality:inspection:data:residualGasBottle:impurity:export"
+                        },
+                        "分析设备": {
+                            "查询": "quality:inspection:data:residualGasBottle:equipment:select"
+                        },
+                        "日志": {
+                            "查询": "quality:inspection:data:residualGasBottle:detail:log:select",
+                            "导出": "quality:inspection:data:residualGasBottle:detail:log:export"
+                        }
+                    },
+                    "查询": "quality:inspection:data:residualGasBottle:select"
+                }
+            },
+            "报检单": {
+                "充装管路": {
+                    "详情": {
+                        "接收": "quality:order:inspection:fillingPipeline:detail:receive",
+                        "数据录入": {
+                            "提交": "quality:analyse:fillingPipeline:submit",
+                            "查询": "quality:analyse:fillingPipeline:select"
+                        },
+                        "导出": "quality:order:inspection:fillingPipeline:detail:export",
+                        "导出报告单": "quality:order:inspection:fillingPipeline:detail:export:report",
+                        "取样": "quality:order:inspection:fillingPipeline:detail:sampling",
+                        "复测": "quality:order:inspection:fillingPipeline:detail:retest",
+                        "复核": "quality:order:inspection:fillingPipeline:detail:recheck",
+                        "判定": "quality:order:inspection:fillingPipeline:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:fillingPipeline:detail:select",
+                    "导出": "quality:order:inspection:fillingPipeline:export",
+                    "查询": "quality:order:inspection:fillingPipeline:select",
+                    "新增": "quality:order:inspection:fillingPipeline:insert"
+                },
+                "生产物料": {
+                    "详情": {
+                        "接收": "quality:order:inspection:produceMaterial:detail:receive",
+                        "数据录入": {
+                            "提交": "quality:analyse:produceMaterial:submit",
+                            "查询": "quality:analyse:produceMaterial:select"
+                        },
+                        "导出": "quality:order:inspection:produceMaterial:detail:export",
+                        "导出报告单": "quality:order:inspection:produceMaterial:detail:export:report",
+                        "取样": "quality:order:inspection:produceMaterial:detail:sampling",
+                        "复测": "quality:order:inspection:produceMaterial:detail:retest",
+                        "复核": "quality:order:inspection:produceMaterial:detail:recheck",
+                        "判定": "quality:order:inspection:produceMaterial:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:produceMaterial:detail:select",
+                    "导出": "quality:order:inspection:produceMaterial:export",
+                    "查询": "quality:order:inspection:produceMaterial:select",
+                    "新增": "quality:order:inspection:produceMaterial:insert"
+                },
+                "生产过程": {
+                    "详情": {
+                        "接收": "quality:order:inspection:produceProcess:detail:receive",
+                        "数据录入": {
+                            "提交": "quality:analyse:produceProcess:submit",
+                            "查询": "quality:analyse:produceProcess:select"
+                        },
+                        "导出": "quality:order:inspection:produceProcess:detail:export",
+                        "导出报告单": "quality:order:inspection:produceProcess:detail:export:report",
+                        "取样": "quality:order:inspection:produceProcess:detail:sampling",
+                        "复测": "quality:order:inspection:produceProcess:detail:retest",
+                        "复核": "quality:order:inspection:produceProcess:detail:recheck",
+                        "判定": "quality:order:inspection:produceProcess:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:produceProcess:detail:select",
+                    "导出": "quality:order:inspection:produceProcess:export",
+                    "查询": "quality:order:inspection:produceProcess:select",
+                    "新增": "quality:order:inspection:produceProcess:insert"
+                },
+                "采购来料": {
+                    "详情": {
+                        "接收": "quality:order:inspection:purchaseIncomingMaterial:detail:receive",
+                        "数据录入": {
+                            "提交": "quality:analyse:purchaseIncomingMaterial:submit",
+                            "查询": "quality:analyse:purchaseIncomingMaterial:select"
+                        },
+                        "导出": "quality:order:inspection:purchaseIncomingMaterial:detail:export",
+                        "导出报告单": "quality:order:inspection:purchaseIncomingMaterial:detail:export:report",
+                        "取样": "quality:order:inspection:purchaseIncomingMaterial:detail:sampling",
+                        "复测": "quality:order:inspection:purchaseIncomingMaterial:detail:retest",
+                        "复核": "quality:order:inspection:purchaseIncomingMaterial:detail:recheck",
+                        "判定": "quality:order:inspection:purchaseIncomingMaterial:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:purchaseIncomingMaterial:detail:select",
+                    "导出": "quality:order:inspection:purchaseIncomingMaterial:export",
+                    "查询": "quality:order:inspection:purchaseIncomingMaterial:select",
+                    "新增": "quality:order:inspection:purchaseIncomingMaterial:insert"
+                },
+                "库内复检及退货": {
+                    "详情": {
+                        "接收": "quality:order:inspection:recheckAndReturn:detail:receive",
+                        "数据录入": { "提交": "quality:analyse:recheckAndReturn:submit" },
+                        "查询": "quality:analyse:recheckAndReturn:select",
+                        "导出": "quality:order:inspection:recheckAndReturn:detail:export",
+                        "导出报告单": "quality:order:inspection:recheckAndReturn:detail:export:report",
+                        "取样": "quality:order:inspection:recheckAndReturn:detail:sampling",
+                        "复测": "quality:order:inspection:recheckAndReturn:detail:retest",
+                        "复核": "quality:order:inspection:recheckAndReturn:detail:recheck",
+                        "判定": "quality:order:inspection:recheckAndReturn:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:recheckAndReturn:detail:select",
+                    "导出": "quality:order:inspection:recheckAndReturn:export",
+                    "查询": "quality:order:inspection:recheckAndReturn:select",
+                    "新增": "quality:order:inspection:recheckAndReturn:insert"
+                },
+                "置换瓶": {
+                    "详情": {
+                        "接收": "quality:order:inspection:replacementBottle:detail:receive",
+                        "数据录入": {
+                            "提交": "quality:analyse:replacementBottle:submit",
+                            "查询": "quality:analyse:replacementBottle:select"
+                        },
+                        "导出": "quality:order:inspection:replacementBottle:detail:export",
+                        "导出报告单": "quality:order:inspection:replacementBottle:detail:export:report",
+                        "取样": "quality:order:inspection:replacementBottle:detail:sampling",
+                        "复测": "quality:order:inspection:replacementBottle:detail:retest",
+                        "复核": "quality:order:inspection:replacementBottle:detail:recheck",
+                        "判定": "quality:order:inspection:replacementBottle:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:replacementBottle:detail:select",
+                    "导出": "quality:order:inspection:replacementBottle:export",
+                    "查询": "quality:order:inspection:replacementBottle:select",
+                    "新增": "quality:order:inspection:replacementBottle:insert"
+                },
+                "残气瓶": {
+                    "详情": {
+                        "接收": "quality:order:inspection:residualGasBottle:detail:receive",
+                        "数据录入": {
+                            "提交": "quality:analyse:residualGasBottle:submit",
+                            "查询": "quality:analyse:residualGasBottle:select"
+                        },
+                        "导出": "quality:order:inspection:residualGasBottle:detail:export",
+                        "导出报告单": "quality:order:inspection:residualGasBottle:detail:export:report",
+                        "取样": "quality:order:inspection:residualGasBottle:detail:sampling",
+                        "复测": "quality:order:inspection:residualGasBottle:detail:retest",
+                        "复核": "quality:order:inspection:residualGasBottle:detail:recheck",
+                        "判定": "quality:order:inspection:residualGasBottle:detail:judgment"
+                    },
+                    "详情查询": "quality:order:inspection:residualGasBottle:detail:select",
+                    "导出": "quality:order:inspection:residualGasBottle:export",
+                    "查询": "quality:order:inspection:residualGasBottle:select",
+                    "新增": "quality:order:inspection:residualGasBottle:insert"
+                }
+            }
+        }
+    },
+    "审核管理": {
+        "检验异常隔离信息": {
+            "待处理": {
+                "查询": "check:exception:isolate:select",
+                "导出": "check:exception:isolate:export",
+                "解除隔离": "check:exception:isolate:insert"
+            },
+            "处理记录": {
+                "查询": "check:exception:isolate:history",
+                "导出": "check:exception:isolate:history:export"
+            }
+        },
+        "领料异常隔离信息": {
+            "待处理": {
+                "查询": "check:exception:material:select",
+                "导出": "check:exception:material:export",
+                "解除隔离": "check:exception:material:insert"
+            },
+            "处理记录": {
+                "查询": "check:exception:material:history",
+                "导出": "check:exception:material:history:export"
+            }
+        }
+    },
+    "系统管理": {
+        "系统权限": {
+            "部门管理": {
+                "编辑": "department:edit",
+                "删除": "department:delete",
+                "查询": "department:select",
+                "新增": "department:insert"
+            },
+            "角色管理": {
+                "授权": "permission:manage:edit",
+                "pc授权": "permission:manage:edit:pc",
+                "app授权": "permission:manage:edit:app",
+                "编辑": "role:manage:edit",
+                "查询": "role:manage:select",
+                "删除": "role:manage:delete"
+            },
+            "用户信息": {
+                "编辑": "user:manage:edit",
+                "查询": "user:manage:select",
+                "删除": "user:manage:delete",
+                "新增": "user:manage:insert",
+                "重置密码": "user:manage:reset"
+            }
+        },
+        "日志管理": {
+            "操作日志": { "查询": "log:manage:operate:select" },
+            "登陆日志": { "查询": "log:manage:login:select" }
+        }
+    }
+}
