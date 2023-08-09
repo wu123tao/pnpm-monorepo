@@ -4,10 +4,14 @@
         "build:utils": {
             "outputs": ["dist/**/*"]
         },
-        "dev:vue3-eslint":{
+        "dev:vue3-eslint": {
             "cache": false,
             "persistent": true,
             "dependsOn": ["^build:utils"]
+        },
+        "build:vue3-eslint": {
+            "outputs": ["dist/**/*"],
+            "dependsOn": ["build:utils"]
         }
     }
 }

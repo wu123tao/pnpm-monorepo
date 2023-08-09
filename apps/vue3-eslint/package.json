@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev:vue3-eslint": "vite --host",
-        "build": "vue-tsc --noEmit && vite build",
+        "build:vue3-eslint": "vue-tsc --noEmit && vite build",
         "preview": "vite preview",
         "test": "api"
     },

@@ -9,6 +9,9 @@
 <script setup lang="ts">
 import type { EditTableColumn } from './components/config';
 import editTable from './components/edit-table.vue';
+import { sum } from '@pnpm-monorepo/utils';
+
+console.log(sum(1, 2));
 
 const columns: EditTableColumn[] = [
     {
