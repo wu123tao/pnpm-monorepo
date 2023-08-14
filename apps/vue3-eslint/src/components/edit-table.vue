@@ -23,6 +23,7 @@
                 :data="formData.tableData"
                 style="width: 100%"
                 border
+                @cell-click="handleCellClick"
             >
                 <el-table-column
                     v-if="selectable"
@@ -40,7 +41,13 @@
                 />
 
                 <template v-for="(col, i) in columns" :key="i">
-                    <el-table-column align="center" min-width="150" show-overflow-tooltip>
+                    <el-table-column
+                        v-bind="col"
+                        align="center"
+                        min-width="150"
+                        show-overflow-tooltip
+                        :class-name="col.editable ? 'edit_cell' : ''"
+                    >
                         <template #header>
                             <div class="cell_header">
                                 <span>{{ col.label }}</span>
@@ -49,7 +56,11 @@
                                 </el-icon>
                             </div>
                         </template>
-                        <template #default="{ $index, cellIndex, row }">
+
+                        <template
+                            v-if="tableEditStatus.columnEditStatus"
+                            #default="{ $index, cellIndex, row }"
+                        >
                             <el-form-item
                                 v-if="
                                     tableEditStatus.columnEditStatus === cellIndex &&
@@ -66,13 +77,6 @@
                                     @update:model-value="updateData($event, $index, col.prop)"
                                 ></component>
                             </el-form-item>
-                            <div
-                                v-else
-                                :class="col.editable ? 'edit_cell' : ''"
-                                @click="openEdit($index, cellIndex, col)"
-                            >
-                                {{ row[col.prop ?? ''] }}
-                            </div>
                         </template>
                     </el-table-column>
                 </template>
@@ -100,7 +104,8 @@
 <script lang="ts" setup>
 import { type FormInstance, type TableInstance, type TableProps } from 'element-plus';
 import { cloneDeep, get } from 'lodash-es';
-import { type EditTableColumn, type Data, maps } from './config';
+import { maps } from './config';
+import { type EditTableColumn, type Data } from './interface';
 import { InfoFilled, Edit } from '@element-plus/icons-vue';
 import { mergeProps } from 'vue';
 
@@ -114,10 +119,6 @@ const props = withDefaults(
         modelValue?: Data[];
         shadow?: 'hover' | 'always' | 'never';
         loading?: boolean;
-        /**
-         * 序号连续
-         */
-        continuous?: boolean;
         rowKey?: string;
         /**
          * 是否调用接口来删除
@@ -133,7 +134,6 @@ const props = withDefaults(
         modelValue: () => [],
         shadow: 'hover',
         loading: false,
-        continuous: true,
         rowKey: 'id',
         useApiDelete: false,
     }
@@ -230,16 +230,24 @@ function updateData(value: unknown, index: number, celProp?: string) {
     emits('update:modelValue', formData.value.tableData);
 }
 
-async function openEdit(index: number, cellIndex: number, cell: EditTableColumn) {
-    rawData.value = { ...formData.value.tableData[index] };
-
-    if (!cell.editable) return;
-
+async function handleCellClick(row: Record<string, unknown>, col: Record<string, any>) {
     const validate = await formRef.value?.validate();
     if (!validate) return;
 
-    tableEditStatus.value.columnEditStatus = cellIndex;
-    tableEditStatus.value.rowEditStatus = index;
+    const rowIndex = formData.value.tableData.findIndex(
+        (item) => item[props.rowKey] === row[props.rowKey]
+    );
+    rawData.value = { ...row };
+    const isEditCell = props.columns.find((item) => item.prop === col.property)?.editable;
+
+    if (!isEditCell) {
+        tableEditStatus.value.rowEditStatus = undefined;
+        tableEditStatus.value.columnEditStatus = undefined;
+        return;
+    }
+
+    tableEditStatus.value.rowEditStatus = rowIndex;
+    tableEditStatus.value.columnEditStatus = col.no;
 }
 
 function handleCancel(index: number) {
@@ -291,10 +299,10 @@ defineExpose({ validate });
     align-items: center;
     padding-bottom: 10px;
 }
-.edit_cell {
-    min-height: 23px;
+:deep(td.edit_cell > .cell) {
+    min-height: 25px;
 }
-.edit_cell:hover {
+:deep(td.edit_cell > .cell):hover {
     border: 1px transparent dotted;
     border-color: var(--el-color-primary);
     cursor: pointer;

@@ -6,8 +6,6 @@ import {
     ElInputNumber,
     ElSelectV2,
     ElSwitch,
-    type FormItemProps,
-    type TableColumnCtx,
 } from 'element-plus';
 import XRadioGroup from './components/radio-component.vue';
 
@@ -22,14 +20,6 @@ export enum ComponentType {
     'el-date-picker' = 'el-date-picker',
 }
 
-export interface EditTableColumn extends Partial<TableColumnCtx<unknown>> {
-    editable?: boolean;
-    editComponent?: keyof typeof ComponentType;
-    componentProps?: Data | ((form: Data) => Data);
-    elFormItemProps?: Partial<FormItemProps> | ((form: unknown) => Partial<FormItemProps>);
-    api?: (row: unknown) => Promise<unknown>;
-}
-
 export const maps = {
     'el-input': markRaw(ElInput),
     'el-input-number': markRaw(ElInputNumber),
@@ -40,10 +30,3 @@ export const maps = {
     'el-cascader': markRaw(ElCascader),
     'el-date-picker': markRaw(ElDatePicker),
 };
-
-export type Data = Record<string, unknown>;
-
-export interface LabelValue {
-    label: string;
-    value: string;
-}

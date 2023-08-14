@@ -11,12 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import type { EditTableColumn } from './components/config';
+import type { EditTableColumn } from './components/interface';
 import editTable from './components/edit-table.vue';
 import { sum } from '@pnpm-monorepo/utils';
 import RadioComponent from './components/components/radio-component.vue';
 import { ElTag } from 'element-plus';
-import axios from 'axios';
 
 console.log(sum(1, 2));
 
@@ -40,7 +39,7 @@ enum STATUS_TYPE {
 
 enum STATUS_TYPE_COLOR {
     success = STATUS_TYPE.正常,
-    error = STATUS_TYPE.异常,
+    danger = STATUS_TYPE.异常,
 }
 
 const columns: EditTableColumn[] = [
@@ -53,20 +52,20 @@ const columns: EditTableColumn[] = [
             options: options,
         },
         elFormItemProps: { rules: [{ required: true, message: '状态' }] },
-        formatter(row, column, cellValue) {
+        formatter(row: unknown, column: EditTableColumn, cellValue: any) {
             const text = STATUS_TYPE[cellValue] ?? '未知';
-            const type = STATUS_TYPE_COLOR[cellValue] ?? 'warning';
-            return h(ElTag, { type: type }, text);
+            const type: any = STATUS_TYPE_COLOR[cellValue] ?? 'warning';
+            return h(ElTag, { type: type }, { default: () => text });
         },
     },
     {
         label: '城市',
         prop: 'cityName',
-        // editable: true,
-        // editComponent: 'el-select-v2',
-        // componentProps: {
-        //     options: cities,
-        // },
+        editable: true,
+        editComponent: 'el-select-v2',
+        componentProps: {
+            options: cities,
+        },
     },
     {
         label: '日期',
@@ -102,7 +101,7 @@ const tableData = ref([
         city: 11,
         cityName: '南京',
         date: '',
-        name: 'Tom',
+        name: 'No. 189, Grove St, Los Angeles',
         address: 'No. 189, Grove St, Los Angeles',
         number: 1,
     },
