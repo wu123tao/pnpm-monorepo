@@ -40,18 +40,20 @@
                 />
 
                 <template v-for="(col, i) in columns" :key="i">
-                    <el-table-column
-                        v-bind="col"
-                        align="center"
-                        min-width="150"
-                        show-overflow-tooltip
-                    >
+                    <el-table-column align="center" min-width="150" show-overflow-tooltip>
+                        <template #header>
+                            <div class="cell_header">
+                                <span>{{ col.label }}</span>
+                                <el-icon v-if="col.editable" class="edit_icon">
+                                    <edit></edit>
+                                </el-icon>
+                            </div>
+                        </template>
                         <template #default="{ $index, cellIndex, row }">
                             <el-form-item
                                 v-if="
-                                    (tableEditStatus.columnEditStatus === cellIndex &&
-                                        tableEditStatus.rowEditStatus === $index) ||
-                                    col.editable
+                                    tableEditStatus.columnEditStatus === cellIndex &&
+                                    tableEditStatus.rowEditStatus === $index
                                 "
                                 :prop="`tableData.${$index}.${col.prop}`"
                                 v-bind="col.elFormItemProps"
@@ -64,7 +66,11 @@
                                     @update:model-value="updateData($event, $index, col.prop)"
                                 ></component>
                             </el-form-item>
-                            <div v-else class="cell-box" @click="openEdit($index, cellIndex, col)">
+                            <div
+                                v-else
+                                :class="col.editable ? 'edit_cell' : ''"
+                                @click="openEdit($index, cellIndex, col)"
+                            >
                                 {{ row[col.prop ?? ''] }}
                             </div>
                         </template>
@@ -73,14 +79,14 @@
 
                 <el-table-column fixed="right" label="操作" align="center">
                     <template #default="{ $index, row }">
-                        <el-button
-                            v-if="tableEditStatus.rowEditStatus === $index"
-                            text
-                            type="primary"
-                            @click="handleSave"
-                        >
-                            保存
-                        </el-button>
+                        <template v-if="tableEditStatus.rowEditStatus === $index">
+                            <el-button text type="primary" @click="handleSave(row)">
+                                保存
+                            </el-button>
+                            <el-button text type="primary" @click="handleCancel($index)">
+                                取消
+                            </el-button>
+                        </template>
                         <el-button v-else text type="danger" @click="handleDelete($index, row)">
                             删除
                         </el-button>
@@ -92,10 +98,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance, TableInstance, TableProps } from 'element-plus';
+import { type FormInstance, type TableInstance, type TableProps } from 'element-plus';
 import { cloneDeep, get } from 'lodash-es';
-import { type EditTableColumn, maps, type Data } from './config';
-import { InfoFilled } from '@element-plus/icons-vue';
+import { type EditTableColumn, type Data, maps } from './config';
+import { InfoFilled, Edit } from '@element-plus/icons-vue';
 import { mergeProps } from 'vue';
 
 const props = withDefaults(
@@ -136,6 +142,7 @@ const props = withDefaults(
 const emits = defineEmits<{
     (e: 'update:modelValue', data: Data[]): void;
     (e: 'delete', data: Data): void;
+    (e: 'save', data: Data): void;
 }>();
 
 const { modelValue } = { ...props };
@@ -213,21 +220,33 @@ function getComponentProps(row: Data, col: EditTableColumn) {
     }
 }
 
+/**
+ * 行数据的原始数据
+ */
+const rawData = ref<Record<string, unknown>>({});
+
 function updateData(value: unknown, index: number, celProp?: string) {
     formData.value.tableData[index][celProp ?? ''] = value;
     emits('update:modelValue', formData.value.tableData);
 }
 
 async function openEdit(index: number, cellIndex: number, cell: EditTableColumn) {
-    console.log(cell);
+    rawData.value = { ...formData.value.tableData[index] };
 
-    // if (!cell.editable) return;
+    if (!cell.editable) return;
 
     const validate = await formRef.value?.validate();
     if (!validate) return;
 
     tableEditStatus.value.columnEditStatus = cellIndex;
     tableEditStatus.value.rowEditStatus = index;
+}
+
+function handleCancel(index: number) {
+    formData.value.tableData[index] = { ...rawData.value };
+
+    tableEditStatus.value.columnEditStatus = undefined;
+    tableEditStatus.value.rowEditStatus = undefined;
 }
 
 function handleDelete(index: number, row: Data) {
@@ -239,12 +258,13 @@ function handleDelete(index: number, row: Data) {
     }
 }
 
-async function handleSave() {
+async function handleSave(row: Record<string, unknown>) {
     const validate = await formRef.value?.validate();
     if (!validate) return;
 
     tableEditStatus.value.columnEditStatus = undefined;
     tableEditStatus.value.rowEditStatus = undefined;
+    emits('save', row);
 }
 
 async function validate(): Promise<boolean> {
@@ -271,12 +291,20 @@ defineExpose({ validate });
     align-items: center;
     padding-bottom: 10px;
 }
-.cell-box {
+.edit_cell {
     min-height: 23px;
 }
-.cell-box:hover {
+.edit_cell:hover {
     border: 1px transparent dotted;
     border-color: var(--el-color-primary);
     cursor: pointer;
+}
+.cell_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.edit_icon {
+    margin-left: 10px;
 }
 </style>
