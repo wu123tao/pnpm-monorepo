@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     copy: typeof import('./../components/edit-table copy.vue')['default']
     EditTable: typeof import('./../components/edit-table.vue')['default']
+    'EditTable copy': typeof import('./../components/edit-table copy.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']

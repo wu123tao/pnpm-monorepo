@@ -4,22 +4,12 @@
             <el-button @click="handleClick">点击</el-button>
         </template>
     </edit-table>
-
-    <component :is="RadioComponent" v-model="selected"></component>
-
-    {{ selected }}
 </template>
 
 <script setup lang="ts">
 import type { EditTableColumn } from './components/interface';
 import editTable from './components/edit-table.vue';
-import { sum } from '@pnpm-monorepo/utils';
-import RadioComponent from './components/components/radio-component.vue';
 import { ElTag } from 'element-plus';
-
-console.log(sum(1, 2));
-
-const selected = ref<number>();
 
 const options = [
     { label: '正常', value: 1 },

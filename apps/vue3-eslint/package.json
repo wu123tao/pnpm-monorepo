@@ -4,6 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
+        "dev": "vite --host",
         "dev:vue3-eslint": "vite --host",
         "build:vue3-eslint": "vue-tsc --noEmit && vite build",
         "preview": "vite preview",
