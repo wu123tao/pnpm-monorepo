@@ -1,6 +1,8 @@
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
 import { getStorage } from '../storage/index';
 import { HTTP_ERROR_NOTICE, HttpStatus } from './constant';
+import nProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 /**
  * 拦截器配置函数参数
@@ -48,6 +50,7 @@ interface ResponseData {
 interface HttpResponse<T> {
     message: string | null;
     data: T;
+    code: number;
 }
 
 /**
@@ -73,6 +76,8 @@ function setupAxiosInterceptors(options: Options) {
     // 请求拦截
     service.interceptors.request.use(
         (config: InternalAxiosRequestConfig) => {
+            nProgress.start();
+
             // 统一添加token
             const token = getStorage(options.storageTokenKey || 'v-token') as string;
             if (token && config.headers) {
@@ -88,17 +93,21 @@ function setupAxiosInterceptors(options: Options) {
     // 响应拦截
     service.interceptors.response.use(
         (response: AxiosResponseData): any => {
+            nProgress.done();
+
             const responseData = response.data;
 
             // 成功响应状态
             if (responseData.code === HttpStatus.OK) {
                 return Promise.resolve({ message: responseData.message, data: responseData.data });
             }
-            options.notification(HttpStatus[responseData.code]);
+            options.notification(responseData.message);
 
             return Promise.resolve(null);
         },
         (error: AxiosError) => {
+            nProgress.done();
+
             const statusCode = error.response?.status;
             if (statusCode) {
                 options.notification(HttpStatus[statusCode]);
@@ -138,4 +147,4 @@ function setupAxiosInterceptors(options: Options) {
     return { post, get, put, del };
 }
 
-export { setupAxiosInterceptors, HttpResponse };
+export { setupAxiosInterceptors, type HttpResponse };
