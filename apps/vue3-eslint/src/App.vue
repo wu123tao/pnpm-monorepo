@@ -1,133 +1,101 @@
 <template>
-    <edit-table v-model="tableData" selectable :columns="columns">
-        <template #operation>
-            <el-button @click="handleClick">点击</el-button>
+    <el-upload :show-file-list="false" :http-request="upload">
+        <el-button type="primary">Click to upload</el-button>
+
+        <template v-if="fileData.name" #tip>
+            <div>{{ fileData.name }}</div>
+            <el-progress :percentage="percentage" />
         </template>
-    </edit-table>
+    </el-upload>
 </template>
 
 <script setup lang="ts">
-import type { EditTableColumn } from './components/interface';
-import editTable from './components/edit-table.vue';
-import { ElTag } from 'element-plus';
+import { post } from '@/api/index';
+import type { HttpResponse } from '@pnpm-monorepo/utils';
 
-const options = [
-    { label: '正常', value: 1 },
-    { label: '异常', value: 2 },
-];
-
-const cities = [
-    { label: '南京', value: 11 },
-    { label: '常州', value: 22 },
-    { label: '镇江', value: 33 },
-];
-
-enum STATUS_TYPE {
-    正常 = 1,
-    异常 = 2,
+interface FileData {
+    name: string;
+    size: number;
 }
 
-enum STATUS_TYPE_COLOR {
-    success = STATUS_TYPE.正常,
-    danger = STATUS_TYPE.异常,
+// const dialogVisible = ref<boolean>(false);
+// const cancelUpload = ref<boolean>(false);
+
+const chunkSize = 1 * 1024 * 1024; // 切片大小Mb
+const percentage = ref<number>(0);
+const fileData = ref<FileData>({
+    name: '',
+    size: 0,
+});
+
+watch(
+    () => percentage.value,
+    (value) => {
+        console.log(value);
+    }
+);
+
+async function upload(uploadFile: { file: File }) {
+    console.log(uploadFile.file);
+
+    fileData.value.name = uploadFile.file.name;
+    fileData.value.size = uploadFile.file.size;
+
+    percentage.value = 0;
+    const chunkCount = Math.ceil(fileData.value.size / chunkSize);
+    console.log(chunkCount, '切片数量');
+
+    for (let i = 0; i < chunkCount; i++) {
+        const res = await uploadChunkFile(i, uploadFile.file, chunkCount);
+        console.log(res);
+    }
 }
 
-const columns: EditTableColumn[] = [
-    {
-        label: '状态',
-        prop: 'status',
-        editable: true,
-        editComponent: 'x-radio',
-        componentProps: {
-            options: options,
-        },
-        elFormItemProps: { rules: [{ required: true, message: '状态' }] },
-        formatter(row: unknown, column: EditTableColumn, cellValue: any) {
-            const text = STATUS_TYPE[cellValue] ?? '未知';
-            const type: any = STATUS_TYPE_COLOR[cellValue] ?? 'warning';
-            return h(ElTag, { type: type }, { default: () => text });
-        },
-    },
-    {
-        label: '城市',
-        prop: 'cityName',
-        editable: true,
-        editComponent: 'el-select-v2',
-        componentProps: {
-            options: cities,
-        },
-    },
-    {
-        label: '日期',
-        prop: 'date',
-        editable: true,
-        editComponent: 'el-date-picker',
-        componentProps: {
-            valueFormat: 'YYYY-MM-DD',
-        },
-        elFormItemProps: { rules: [{ required: true, message: '日期' }] },
-    },
-    {
-        label: '姓名',
-        prop: 'name',
-        editable: true,
-    },
-    {
-        label: '地址',
-        prop: 'address',
-    },
-    {
-        label: '数量',
-        prop: 'number',
-        editComponent: 'el-input-number',
-        editable: true,
-    },
-];
+async function uploadChunkFile(
+    i: number,
+    file: File,
+    chunkCount: number
+): Promise<HttpResponse<{ data: string }>> {
+    const start = i * chunkSize;
+    const end = Math.min(fileData.value.size as number, start + chunkSize);
 
-const tableData = ref([
-    {
-        id: 1,
-        status: null,
-        city: 11,
-        cityName: '南京',
-        date: '',
-        name: 'No. 189, Grove St, Los Angeles',
-        address: 'No. 189, Grove St, Los Angeles',
-        number: 1,
-    },
-    {
-        id: 2,
-        status: 2,
-        city: 22,
-        cityName: '常州',
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-        number: 1,
-    },
-    {
-        id: 3,
-        status: 1,
-        city: 33,
-        cityName: '镇江',
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-        number: 1,
-    },
-    {
-        id: 4,
-        status: 2,
-        city: 22,
-        cityName: '常州',
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-        number: null,
-    },
-]);
+    const fileName =
+        i + 1 === chunkCount ? fileData.value.name : `${fileData.value.name}$$${i + 1}`;
 
-function handleClick() {
-    console.log(tableData.value);
+    const chunkFile = file.slice(start, end);
+    const formData = new FormData();
+    formData.append('encrypt', 'true');
+    // formData.append('fileName', fileData.value.name);
+    formData.append('file', chunkFile, fileName);
+
+    console.log(fileName);
+
+    return await post('files/chunkUpload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (evt) => {
+            percentage.value = Number(
+                (
+                    (Math.min(fileData.value.size, start + evt.loaded) / fileData.value.size) *
+                    100
+                ).toFixed(2)
+            );
+        },
+    });
 }
+
+/**
+ * onChange
+ */
+// async function handleChange(uploadFile: UploadUserFile) {
+//     const formData = new FormData();
+//     formData.append('file', uploadFile.raw as any);
+
+//     const res = await post('files/upload', formData, {
+//         headers: { 'Content-Type': 'multipart/form-data' },
+//         onUploadProgress: (evt) => {
+//             console.log(evt.loaded);
+//         },
+//     });
+//     console.log(res);
+// }
 </script>
