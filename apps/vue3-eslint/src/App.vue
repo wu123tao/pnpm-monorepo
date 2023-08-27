@@ -12,10 +12,13 @@
 <script setup lang="ts">
 import { post } from '@/api/index';
 import type { HttpResponse } from '@pnpm-monorepo/utils';
+import { nanoid } from 'nanoid';
 
 interface FileData {
     name: string;
     size: number;
+    uuid: string;
+    suffix: string;
 }
 
 // const dialogVisible = ref<boolean>(false);
@@ -26,6 +29,8 @@ const percentage = ref<number>(0);
 const fileData = ref<FileData>({
     name: '',
     size: 0,
+    uuid: '',
+    suffix: '',
 });
 
 watch(
@@ -36,39 +41,40 @@ watch(
 );
 
 async function upload(uploadFile: { file: File }) {
-    console.log(uploadFile.file);
+    const nameList = uploadFile.file.name.split('.');
 
     fileData.value.name = uploadFile.file.name;
     fileData.value.size = uploadFile.file.size;
+    fileData.value.uuid = nanoid(6);
+    fileData.value.suffix = nameList[nameList.length - 1];
 
     percentage.value = 0;
     const chunkCount = Math.ceil(fileData.value.size / chunkSize);
     console.log(chunkCount, '切片数量');
 
     for (let i = 0; i < chunkCount; i++) {
-        const res = await uploadChunkFile(i, uploadFile.file, chunkCount);
+        const res = await uploadChunkFile(i, uploadFile.file);
         console.log(res);
     }
+
+    const res = await post('files/mergeFile', {
+        fileName: `${nanoid(6)}-${fileData.value.name}`,
+        suffix: fileData.value.suffix,
+        uuid: fileData.value.uuid,
+    });
+    console.log(res);
 }
 
-async function uploadChunkFile(
-    i: number,
-    file: File,
-    chunkCount: number
-): Promise<HttpResponse<{ data: string }>> {
+async function uploadChunkFile(i: number, file: File): Promise<HttpResponse<{ data: string }>> {
     const start = i * chunkSize;
     const end = Math.min(fileData.value.size as number, start + chunkSize);
 
-    const fileName =
-        i + 1 === chunkCount ? fileData.value.name : `${fileData.value.name}$$${i + 1}`;
-
     const chunkFile = file.slice(start, end);
-    const formData = new FormData();
-    formData.append('encrypt', 'true');
-    // formData.append('fileName', fileData.value.name);
-    formData.append('file', chunkFile, fileName);
 
-    console.log(fileName);
+    const formData = new FormData();
+    formData.append('fileName', `${fileData.value.name}@@${i}`);
+    formData.append('file', chunkFile);
+    formData.append('uuid', fileData.value.uuid);
 
     return await post('files/chunkUpload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
