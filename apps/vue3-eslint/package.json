@@ -13,7 +13,7 @@
     "dependencies": {
         "@element-plus/icons-vue": "^2.1.0",
         "@pnpm-monorepo/utils": "workspace:^1.0.0",
-        "element-plus": "^2.3.9",
+        "element-plus": "^2.3.12",
         "lodash-es": "^4.17.21",
         "nanoid": "^4.0.2",
         "vue": "^3.3.4"
@@ -21,10 +21,10 @@
     "devDependencies": {
         "@pnpm-monorepo/generate-cli": "workspace:^1.0.0",
         "@types/lodash-es": "^4.17.8",
-        "@types/node": "^20.5.3",
+        "@types/node": "^20.5.7",
         "@vitejs/plugin-vue": "^4.3.3",
         "sass": "^1.66.1",
-        "typescript": "^5.1.6",
+        "typescript": "^5.2.2",
         "unplugin-auto-import": "^0.16.6",
         "unplugin-vue-components": "^0.25.1",
         "vite": "^4.4.9",
