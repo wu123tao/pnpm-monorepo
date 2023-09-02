@@ -24,11 +24,14 @@ interface Options {
      * 请求头携带token key值
      */
     requestHeaderTokenKey?: string;
-
     /**
      * 提示信息
      */
     notification?: (responseData: string) => any;
+    /**
+     * 展示进度
+     */
+    showProgress?: boolean;
 }
 
 interface AxiosResponseData extends AxiosResponse {
@@ -76,7 +79,7 @@ function setupAxiosInterceptors(options: Options) {
     // 请求拦截
     service.interceptors.request.use(
         (config: InternalAxiosRequestConfig) => {
-            nProgress.start();
+            if (options.showProgress) nProgress.start();
 
             // 统一添加token
             const token = getStorage(options.storageTokenKey || 'v-token') as string;
@@ -93,7 +96,7 @@ function setupAxiosInterceptors(options: Options) {
     // 响应拦截
     service.interceptors.response.use(
         (response: AxiosResponseData): any => {
-            nProgress.done();
+            if (options.showProgress) nProgress.done();
 
             const responseData = response.data;
 

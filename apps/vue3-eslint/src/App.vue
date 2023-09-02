@@ -1,18 +1,28 @@
 <template>
-    <el-upload :show-file-list="false" :http-request="upload">
-        <el-button type="primary">Click to upload</el-button>
+    <div>
+        <el-alert title="传统上传" type="success" :closable="false" />
+        <el-upload :show-file-list="false" :http-request="handleChange">
+            <el-button type="primary">Click to upload</el-button>
+        </el-upload>
+    </div>
 
-        <template v-if="fileData.name" #tip>
-            <div>{{ fileData.name }}</div>
-            <el-progress :percentage="percentage" />
-        </template>
-    </el-upload>
+    <div>
+        <el-alert title="分片上传" type="success" :closable="false" />
+        <el-upload :show-file-list="false" :http-request="upload">
+            <el-button type="primary">Click to upload</el-button>
+
+            <template v-if="fileData.name" #tip>
+                <div>{{ fileData.name }}</div>
+                <el-progress :percentage="percentage" />
+            </template>
+        </el-upload>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { post } from '@/api/index';
 import type { HttpResponse } from '@pnpm-monorepo/utils';
-import { nanoid } from 'nanoid';
+import { v4 as uuid } from 'uuid';
 
 interface FileData {
     name: string;
@@ -45,7 +55,7 @@ async function upload(uploadFile: { file: File }) {
 
     fileData.value.name = uploadFile.file.name;
     fileData.value.size = uploadFile.file.size;
-    fileData.value.uuid = nanoid(6);
+    fileData.value.uuid = uuid();
     fileData.value.suffix = nameList[nameList.length - 1];
 
     percentage.value = 0;
@@ -58,10 +68,15 @@ async function upload(uploadFile: { file: File }) {
     }
 
     const res = await post('files/mergeFile', {
-        fileName: `${nanoid(6)}-${fileData.value.name}`,
+        fileName: `${fileData.value.uuid}-${fileData.value.name}`,
         suffix: fileData.value.suffix,
         uuid: fileData.value.uuid,
     });
+    // const res = await post('files/mergeFile', {
+    //     fileName: `a534a7e6-0ec6-4894-8ba6-a31b10569f1f-1314617.jpg`,
+    //     suffix: 'jpg',
+    //     uuid: 'a534a7e6-0ec6-4894-8ba6-a31b10569f1f',
+    // });
     console.log(res);
 }
 
@@ -92,16 +107,16 @@ async function uploadChunkFile(i: number, file: File): Promise<HttpResponse<{ da
 /**
  * onChange
  */
-// async function handleChange(uploadFile: UploadUserFile) {
-//     const formData = new FormData();
-//     formData.append('file', uploadFile.raw as any);
+async function handleChange(uploadFile: { file: File }) {
+    const formData = new FormData();
+    formData.append('file', uploadFile.file);
 
-//     const res = await post('files/upload', formData, {
-//         headers: { 'Content-Type': 'multipart/form-data' },
-//         onUploadProgress: (evt) => {
-//             console.log(evt.loaded);
-//         },
-//     });
-//     console.log(res);
-// }
+    const res = await post('files/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (evt) => {
+            console.log(evt.loaded);
+        },
+    });
+    console.log(res);
+}
 </script>
