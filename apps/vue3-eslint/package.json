@@ -21,7 +21,7 @@
     "devDependencies": {
         "@pnpm-monorepo/generate-cli": "workspace:^1.0.0",
         "@types/lodash-es": "^4.17.9",
-        "@types/node": "^20.5.7",
+        "@types/node": "^20.5.9",
         "@types/uuid": "^9.0.3",
         "@vitejs/plugin-vue": "^4.3.4",
         "sass": "^1.66.1",
