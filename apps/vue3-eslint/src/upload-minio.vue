@@ -7,8 +7,8 @@
     </div>
 
     <div>
-        <el-alert title="分片上传-（文件最终合并到本地服务上）" type="success" :closable="false" />
-        <el-upload :show-file-list="false" :http-request="uploadLocalServer">
+        <el-alert title="分片上传-（文件最终合并到minio服务上）" type="success" :closable="false" />
+        <el-upload :show-file-list="false" :http-request="upload">
             <el-button type="primary">Click to upload</el-button>
 
             <template v-if="fileData.name" #tip>
@@ -31,6 +31,9 @@ interface FileData {
     suffix: string;
 }
 
+// const dialogVisible = ref<boolean>(false);
+// const cancelUpload = ref<boolean>(false);
+
 const chunkSize = 1 * 1024 * 1024; // 切片大小Mb
 const percentage = ref<number>(0);
 const fileData = ref<FileData>({
@@ -47,10 +50,7 @@ watch(
     }
 );
 
-/**
- * 文件上传到本地服务
- */
-async function uploadLocalServer(uploadFile: { file: File }) {
+async function upload(uploadFile: { file: File }) {
     const nameList = uploadFile.file.name.split('.');
 
     fileData.value.name = uploadFile.file.name;
@@ -62,23 +62,20 @@ async function uploadLocalServer(uploadFile: { file: File }) {
     const chunkCount = Math.ceil(fileData.value.size / chunkSize);
     console.log(chunkCount, '切片数量');
 
-    for (let i = 0; i < chunkCount; i++) {
-        const res = await uploadChunkFileLocalServer(i, uploadFile.file);
-        console.log(res);
-    }
+    // for (let i = 0; i < chunkCount; i++) {
+    //     const res = await uploadChunkFile(i, uploadFile.file);
+    //     console.log(res);
+    // }
 
     const res = await post('files/mergeFile', {
         fileName: `${fileData.value.uuid}-${fileData.value.name}`,
         suffix: fileData.value.suffix,
-        uuid: fileData.value.uuid,
+        uuid: '77ca3df4-db96-4f4a-b26d-b90cb4607391',
     });
     console.log(res);
 }
 
-async function uploadChunkFileLocalServer(
-    i: number,
-    file: File
-): Promise<HttpResponse<{ data: string }>> {
+async function uploadChunkFile(i: number, file: File): Promise<HttpResponse<{ data: string }>> {
     const start = i * chunkSize;
     const end = Math.min(fileData.value.size as number, start + chunkSize);
 
