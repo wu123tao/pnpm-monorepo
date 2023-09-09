@@ -8,7 +8,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import type { LabelValue } from '../config';
+import type { LabelValue } from '../interface';
 
 withDefaults(
     defineProps<{
