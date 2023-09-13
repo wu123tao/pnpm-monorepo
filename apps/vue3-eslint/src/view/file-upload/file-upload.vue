@@ -1,57 +1,61 @@
 <template>
     <div>
-        <el-alert title="传统上传" type="success" :closable="false" />
-        <el-upload :show-file-list="false" :http-request="handleChange">
-            <el-button type="primary">Click to upload</el-button>
-        </el-upload>
+        <div style="margin-bottom: 10px; text-align: right">
+            <el-button type="primary" @click="openFileUploadDialog">上传文件</el-button>
+        </div>
+        <el-table :data="tableData" border>
+            <el-table-column label="文件名" align="center" prop="fileName"></el-table-column>
+            <el-table-column label="文件大小(MB)" align="center">
+                <template #default="{ row }">
+                    {{ Math.round((row.fileSize / (1024 * 1024)) * 100) / 100 }}
+                </template>
+            </el-table-column>
+            <el-table-column label="添加时间" align="center" prop="addTime"> </el-table-column>
+            <el-table-column label="路径" align="center">
+                <template #default="{ row }">
+                    <el-link :href="row.url">{{ row.fileName }}</el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center" :width="100">
+                <template #default="{ row }">
+                    <el-button type="danger" text @click="doDelete(row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <file-upload-dialog v-model="visible" @close="handleClose"></file-upload-dialog>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { UploadRequestOptions } from 'element-plus';
+import { get, post } from '@/api';
+import FileUploadDialog from './file-dialog.vue';
 
-const chunkSize = ref<number>(1024 * 50);
-const threadCount = ref<number>(navigator.hardwareConcurrency | 4);
+onMounted(async () => {
+    await getTableData();
+});
 
-async function handleChange(uploadRequestOptions: UploadRequestOptions) {
-    const { file } = uploadRequestOptions;
-
-    const res = await cutFile(file);
+async function getTableData() {
+    const res = await get('/files/list');
     console.log(res);
+    tableData.value = res.data;
 }
 
-async function cutFile(file: File) {
-    return new Promise((resolve) => {
-        const chunks: any = [];
+const tableData = ref<Record<string, any>[]>([]);
 
-        const chunkCount = Math.ceil(file.size / chunkSize.value);
+const visible = ref<boolean>(false);
 
-        const workChunkCount = Math.ceil(chunkCount / threadCount.value);
+function openFileUploadDialog() {
+    visible.value = true;
+}
 
-        let finishCount = 0;
+async function doDelete(row: Record<string, any>) {
+    const res = await post('/files/delete', { ids: [row.id] });
+    console.log(res);
+    await getTableData();
+}
 
-        for (let i = 0; i < threadCount.value; i++) {
-            const chunkWorker = new Worker(new URL('../../utils/worker.ts', import.meta.url), {
-                type: 'module',
-            });
-            const startIndex = i * workChunkCount;
-            let endIndex = startIndex + workChunkCount;
-            if (endIndex > chunkCount) {
-                endIndex = chunkCount;
-            }
-            chunkWorker.postMessage({ file, chunkSize: chunkSize.value, startIndex, endIndex });
-
-            chunkWorker.onmessage = (e) => {
-                for (let i = startIndex; i < endIndex; i++) {
-                    chunks[i] = e.data[i - startIndex];
-                }
-                chunkWorker.terminate();
-                finishCount++;
-                if (finishCount === threadCount.value) {
-                    resolve(chunks);
-                }
-            };
-        }
-    });
+async function handleClose() {
+    await getTableData();
 }
 </script>

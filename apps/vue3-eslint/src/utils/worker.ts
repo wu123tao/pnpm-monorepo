@@ -5,7 +5,7 @@ self.onmessage = async (e) => {
 
     const { file, chunkSize, startIndex, endIndex } = e.data;
 
-    console.log(file, chunkSize, startIndex, endIndex);
+    // console.log(startIndex, endIndex);
 
     for (let i = startIndex; i < endIndex; i++) {
         proms.push(createChunk(file, i, chunkSize));
@@ -18,6 +18,8 @@ function createChunk(file: File, index: number, chunkSize: number) {
     return new Promise((resolve) => {
         const start = index * chunkSize;
         const end = start + chunkSize;
+
+        console.log(start, end, '-------');
 
         const sparkMD5 = new SparkMD5();
         const reader = new FileReader();
