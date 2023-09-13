@@ -15,3 +15,8 @@ export interface LabelValue {
     label: string;
     value: string;
 }
+
+export interface EditTableRef {
+    validate: () => Promise<boolean>;
+    clearSelection: () => void;
+}

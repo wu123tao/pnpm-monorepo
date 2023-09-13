@@ -101,7 +101,7 @@
     </el-card>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T">
 import { type FormInstance, type TableInstance, type TableProps } from 'element-plus';
 import { cloneDeep, get } from 'lodash-es';
 import { maps } from './config';
@@ -127,8 +127,8 @@ const props = withDefaults(
     }>(),
     {
         title: '数据列表',
-        selectable: false,
-        showIndex: false,
+        selectable: true,
+        showIndex: true,
         elTableProps: () => ({}),
         columns: () => [],
         modelValue: () => [],
@@ -140,31 +140,31 @@ const props = withDefaults(
 );
 
 const emits = defineEmits<{
-    (e: 'update:modelValue', data: Data[]): void;
-    (e: 'delete', data: Data): void;
-    (e: 'save', data: Data): void;
+    'update:modelValue': [data: Data[]];
+    delete: [data: Data];
+    save: [data: Data];
 }>();
 
-const { modelValue } = { ...props };
+const { modelValue } = toRefs(props);
 
 const formRef = ref<FormInstance>();
 
 const tableRef = ref<TableInstance>();
 
 const formData = ref<{ tableData: Data[] }>({
-    tableData: cloneDeep(modelValue),
+    tableData: cloneDeep(modelValue.value),
 });
 
+const selectRows = ref<Data[]>([]);
+
 watchEffect(() => {
-    formData.value.tableData = cloneDeep(modelValue);
+    formData.value.tableData = cloneDeep(modelValue.value);
 });
 
 const tableEditStatus = ref<{ rowEditStatus?: number; columnEditStatus?: number }>({
     rowEditStatus: undefined,
     columnEditStatus: undefined,
 });
-
-const selectRows = ref<Data[]>([]);
 
 const extraProps = ref<Data>({
     options: [],
@@ -263,6 +263,7 @@ function handleDelete(index: number, row: Data) {
     } else {
         formData.value.tableData.splice(index, 1);
         emits('update:modelValue', formData.value.tableData);
+        emits('delete', row);
     }
 }
 
@@ -285,11 +286,15 @@ async function validate(): Promise<boolean> {
     return true;
 }
 
+function clearSelection() {
+    tableRef.value?.clearSelection();
+}
+
 watchEffect(() => {
     selectRows.value = tableRef.value?.getSelectionRows();
 });
 
-defineExpose({ validate });
+defineExpose({ validate, clearSelection });
 </script>
 
 <style lang="scss" scoped>
