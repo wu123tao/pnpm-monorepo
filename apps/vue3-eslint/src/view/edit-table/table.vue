@@ -29,10 +29,25 @@ const tableData = ref<FileVo[]>([]);
 const tableRef = ref<EditTableRef>();
 
 const columns: EditTableColumn[] = [
-    { label: '文件名', prop: 'fileName' },
-    { label: '文件大小', prop: 'fileSize' },
-    { label: '添加时间', prop: 'addTime' },
-    { label: '路径', prop: 'url' },
+    {
+        label: '文件名',
+        prop: 'fileName',
+        editable: true,
+    },
+    {
+        label: '文件大小',
+        prop: 'fileSize',
+        editable: true,
+        editComponent: 'el-input-number',
+    },
+    {
+        label: '添加时间',
+        prop: 'addTime',
+    },
+    {
+        label: '路径',
+        prop: 'url',
+    },
 ];
 
 async function getTableData() {

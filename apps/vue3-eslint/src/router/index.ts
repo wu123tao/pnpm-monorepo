@@ -25,6 +25,14 @@ export const routes: RouteRecordRaw[] = [
             title: '编辑表格',
         },
     },
+    {
+        path: '/export-xlsx',
+        name: '/export-xlsx',
+        component: () => import('@/view/export-xlsx/export-xlsx.vue'),
+        meta: {
+            title: '导出表格',
+        },
+    },
 ];
 
 export const router = createRouter({
