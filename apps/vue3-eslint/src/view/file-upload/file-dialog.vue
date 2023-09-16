@@ -44,7 +44,6 @@ import { UploadFilled } from '@element-plus/icons-vue';
 import { v4 as uuid } from 'uuid';
 import { post } from '@/api';
 import type { HttpResponse } from '@pnpm-monorepo/utils';
-// import { defineModel, defineOptions } from 'vue';
 
 defineOptions({
     name: 'FileUploadDialog',
@@ -70,8 +69,6 @@ const visible = computed({
         emit('update:modelValue', newValue);
     },
 });
-
-console.log(visible);
 
 const percentage = ref<number[]>([]);
 
