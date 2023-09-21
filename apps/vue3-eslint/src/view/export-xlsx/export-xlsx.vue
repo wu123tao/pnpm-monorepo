@@ -1,32 +1,78 @@
 <template>
     <div>
         <el-card shadow="hover">
-            <el-descriptions title="User Info" border>
-                <el-descriptions-item v-for="(item, i) in descProps" :key="i" :label="item.label">{{
-                    descData[item.prop]
-                }}</el-descriptions-item>
-            </el-descriptions>
+            <pro-description
+                title="测试"
+                :columns="descColumns"
+                :detail="descData"
+                :column="3"
+                border
+                align="center"
+                empty-value="暂无数据"
+                size="large"
+            >
+                <template #title>123</template>
+                <template #extra>123</template>
+            </pro-description>
         </el-card>
 
         <edit-table ref="tableRef" v-model="tableData" :columns="columns" @delete="doDelete">
-            <template #operation>
+            <template #operation="{ checkedRows }">
                 <el-button type="primary" @click="exportByXlSX">使用xlsx导出</el-button>
                 <el-button type="primary" @click="exportByExcelJS">使用exceljs导出</el-button>
+                <el-button type="primary" @click="exportDocx(checkedRows)">导出Word</el-button>
             </template>
         </edit-table>
     </div>
 </template>
 <script lang="ts" setup>
 import { get } from '@/api';
-import EditTable from '@/components/edit-table.vue';
-import type { EditTableColumn, EditTableRef } from '@/components/interface';
+import EditTable from '@/components/edit-table/edit-table.vue';
+import type { EditTableColumn, EditTableRef } from '@/components/edit-table/interface';
 import { cloneDeep } from 'lodash-es';
 import * as xlsx from 'xlsx';
 import Excel from 'exceljs';
+import saveAs from 'file-saver';
+import PizZipUtils from 'pizzip/utils';
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
+import { ProDescription, type DescriptionColumn } from '@/components/description';
+import { ElTag } from 'element-plus';
 
 onMounted(async () => {
     await getTableData();
 });
+
+interface Desc {
+    Username: string;
+    Telephone: string;
+    Place: string | undefined;
+    Remarks: string;
+    Address: string;
+    age: string;
+}
+
+const descColumns: DescriptionColumn<Desc>[] = [
+    { prop: 'Username', label: '用户名' },
+    { prop: 'Telephone', label: '手机号' },
+    { prop: 'Place', label: '接收地址' },
+    { prop: 'Remarks', label: '备注' },
+    { prop: 'Address', label: '联系地址' },
+    {
+        prop: 'age',
+        label: '年龄',
+        render: (detail) => h(ElTag, { type: 'danger' }, { default: () => detail.age }),
+    },
+];
+
+const descData: Desc = {
+    Username: 'kooriookami',
+    Telephone: '18100000000',
+    Place: undefined,
+    Remarks: 'School',
+    Address: 'No.1188',
+    age: '22',
+};
 
 interface FileVo {
     fileName?: string;
@@ -47,7 +93,7 @@ const columns: EditTableColumn[] = [
 ];
 
 async function getTableData() {
-    const res = await get('/files/list');
+    const res = await get('/m1/2773621-0-default/getList', { baseURL: 'http://127.0.0.1:4523' });
     tableData.value = cloneDeep(res.data);
 }
 
@@ -57,24 +103,12 @@ function doDelete(row: any) {
     tableRef.value?.clearSelection();
 }
 
-const descProps = [
-    { prop: 'Username', label: '用户名' },
-    { prop: 'Telephone', label: '手机号' },
-    { prop: 'Place', label: '接收地址' },
-    { prop: 'Remarks', label: '备注' },
-    { prop: 'Address', label: '联系地址' },
-];
-const descData: any = {
-    Username: 'kooriookami',
-    Telephone: '18100000000',
-    Place: 'Suzhou',
-    Remarks: 'School',
-    Address: 'No.1188',
-};
-
+/**
+ * 使用xlsx导出
+ */
 function exportByXlSX() {
-    const descHeadLabel = descProps.map((item) => item.label);
-    const descHeaderProp = descProps.map((item) => item.prop);
+    const descHeadLabel = descColumns.map((item) => item.label);
+    const descHeaderProp = descColumns.map((item) => item.prop);
     const descContent = descHeaderProp.map((item) => descData[item]);
 
     const tableHeadLabel = columns.map((col) => col.label);
@@ -99,9 +133,12 @@ function exportByXlSX() {
     xlsx.writeFile(workbook, 'test.xlsx');
 }
 
+/**
+ * 使用exceljs导出
+ */
 function exportByExcelJS() {
-    const descHeadLabel = descProps.map((item) => item.label);
-    const descHeaderProp = descProps.map((item) => item.prop);
+    const descHeadLabel = descColumns.map((item) => item.label);
+    const descHeaderProp = descColumns.map((item) => item.prop);
     const descContent = descHeaderProp.map((item) => descData[item]);
 
     const tableHeadLabel = columns.map((col) => col.label);
@@ -119,30 +156,25 @@ function exportByExcelJS() {
         properties: { tabColor: { argb: 'E52DB6BB' } },
     });
 
-    worksheet.insertRow(1, descHeadLabel);
+    worksheet.insertRow(1, descHeadLabel).eachCell((cell: Excel.Cell) => {
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'E52DB6BB' },
+        };
+    });
     worksheet.insertRow(2, descContent);
 
-    worksheet.insertRow(4, tableHeadLabel);
-    tableContent.forEach((item, i) => {
-        worksheet.insertRow(i + 5, item);
+    worksheet.insertRow(4, tableHeadLabel).eachCell((cell: Excel.Cell) => {
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'E52DB6BB' },
+        };
     });
+    worksheet.insertRows(5, tableContent);
 
-    const descHeadRow = worksheet.getRow(1);
-    const tableHeadRow = worksheet.getRow(4);
-    descHeadRow.eachCell((cell: Excel.Cell) => {
-        cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'E52DB6BB' },
-        };
-    });
-    tableHeadRow.eachCell((cell: Excel.Cell) => {
-        cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'E52DB6BB' },
-        };
-    });
+    worksheet.getCell('A1').note = 'hello Exceljs';
 
     workbook.xlsx.writeBuffer().then((data) => {
         const blob = new Blob([data], {
@@ -157,6 +189,62 @@ function exportByExcelJS() {
         window.URL.revokeObjectURL(a.href);
     });
 }
-</script>
 
-<style></style>
+/**
+ * 导出word
+ */
+async function exportDocx(rows: FileVo[]) {
+    const fileData = {
+        first_name: 'John',
+        last_name: 'Doe',
+        phone: '0652455478',
+        description: 'New Website',
+        data: rows.length ? rows : tableData.value,
+    };
+
+    const fileInfo = await loadFile('./tag-example.docx');
+    if (!fileInfo) {
+        return;
+    }
+
+    renderFile(fileInfo as string, fileData, 'output.docx');
+}
+
+/**
+ * 读取文件信息
+ */
+function loadFile(url: string) {
+    return new Promise<boolean | string>((resolve) => {
+        PizZipUtils.getBinaryContent(url, (err: Error, data: string) => {
+            if (err) {
+                resolve(false);
+            }
+            resolve(data);
+        });
+    });
+}
+
+/**
+ * 渲染文件
+ */
+function renderFile(file: string, fileData: any, fileName: string) {
+    const zip = new PizZip(file);
+    const doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true,
+    });
+
+    doc.setData(fileData);
+
+    try {
+        doc.render();
+    } catch (error: any) {
+        throw error;
+    }
+    const out = doc.getZip().generate({
+        type: 'blob',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+    saveAs(out, fileName);
+}
+</script>

@@ -9,8 +9,8 @@
 </template>
 <script lang="ts" setup>
 import { get } from '@/api';
-import EditTable from '@/components/edit-table.vue';
-import type { EditTableColumn, EditTableRef } from '@/components/interface';
+import EditTable from '@/components/edit-table/edit-table.vue';
+import type { EditTableColumn, EditTableRef } from '@/components/edit-table/interface';
 import { cloneDeep } from 'lodash-es';
 
 onMounted(async () => {
