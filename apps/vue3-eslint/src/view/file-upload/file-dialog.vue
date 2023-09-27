@@ -94,8 +94,9 @@ const fileData = ref<any>({});
 async function handleChange(uploadRequestOptions: UploadRequestOptions) {
     const { file } = uploadRequestOptions;
     console.log(file);
+    console.log(uploadRequestOptions);
 
-    fileList.value.push(file);
+    // fileList.value.push(file);
 }
 
 // 删除文件

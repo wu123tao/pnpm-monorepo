@@ -1,50 +1,69 @@
-import { ElDescriptions, ElDescriptionsItem } from 'element-plus';
+import { ElCard, ElDescriptions, ElDescriptionsItem } from 'element-plus';
 import { proDescriptionProps } from './props';
-import { mergeProps, h } from 'vue';
-import { get } from 'lodash-es';
+import { h } from 'vue';
+import { get, omit } from 'lodash-es';
 import type { DescriptionColumn } from './interface';
 
 export default defineComponent({
     name: 'ProDescription',
     props: proDescriptionProps,
     setup(props, { slots }) {
-        function renderText(item: DescriptionColumn) {
+        const { cardProps } = props;
+        const descProps = omit(props, 'cardProps');
+
+        /**
+         * 渲染每个item的内容
+         */
+        function renderDescText(item: DescriptionColumn) {
             if (item.render) {
-                return item.render(props.detail);
+                return item.render(descProps.detail);
             } else {
-                return get(props.detail, item.prop) ?? props.emptyValue;
+                return get(descProps.detail, item.prop) ?? descProps.emptyValue;
             }
         }
 
-        function createChildren() {
-            return props.columns?.map((item) => {
+        /**
+         * 渲染 DescriptionsItem
+         */
+        function renderDescChildren() {
+            return descProps.columns?.map((item) => {
                 return h(
                     ElDescriptionsItem,
                     {
                         ...item,
-                        align: item.align ?? props.align,
-                        labelAlign: item.labelAlign ?? props.labelAlign,
+                        align: item.align ?? descProps.align,
+                        labelAlign: item.labelAlign ?? descProps.labelAlign,
                     },
                     {
-                        default: () => renderText(item),
+                        default: () => renderDescText(item),
                     }
                 );
             });
         }
-        return () => {
-            console.log(createChildren());
 
-            const children: Record<string, unknown> = {
-                default: () => createChildren(),
+        /**
+         * 渲染 Descriptions
+         */
+        function renderDescription() {
+            const descChildren: Record<string, unknown> = {
+                default: () => renderDescChildren(),
             };
             if (slots['title']) {
-                children.title = () => slots['title']?.();
+                descChildren.title = () => slots['title']?.();
             }
             if (slots['extra']) {
-                children.extra = () => slots['extra']?.();
+                descChildren.extra = () => slots['extra']?.();
             }
 
-            return h(ElDescriptions, mergeProps(props), children);
+            return h(ElDescriptions, { ...descProps }, descChildren);
+        }
+
+        return () => {
+            if (props.showCard) {
+                return h(ElCard, { ...cardProps }, { default: () => renderDescription() });
+            } else {
+                return renderDescription();
+            }
         };
     },
 });

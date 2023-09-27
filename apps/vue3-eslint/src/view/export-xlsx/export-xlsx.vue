@@ -1,20 +1,19 @@
 <template>
     <div>
-        <el-card shadow="hover">
-            <pro-description
-                title="测试"
-                :columns="descColumns"
-                :detail="descData"
-                :column="3"
-                border
-                align="center"
-                empty-value="暂无数据"
-                size="large"
-            >
-                <template #title>123</template>
-                <template #extra>123</template>
-            </pro-description>
-        </el-card>
+        <pro-description
+            title="测试"
+            :columns="descColumns"
+            :column="3"
+            :detail="descData"
+            border
+            align="center"
+            size="large"
+            empty-value="qwe"
+            :card-props="{ shadow: 'hover', header: '123' }"
+        >
+            <template #title>desc title</template>
+            <template #extra>desc extra</template>
+        </pro-description>
 
         <edit-table ref="tableRef" v-model="tableData" :columns="columns" @delete="doDelete">
             <template #operation="{ checkedRows }">
@@ -61,7 +60,7 @@ const descColumns: DescriptionColumn<Desc>[] = [
     {
         prop: 'age',
         label: '年龄',
-        render: (detail) => h(ElTag, { type: 'danger' }, { default: () => detail.age }),
+        render: (detail) => h(ElTag, { type: 'danger' }, { default: () => detail?.age }),
     },
 ];
 
