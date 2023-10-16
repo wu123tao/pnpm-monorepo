@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "bin",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "target": "ESNext",
+        "moduleResolution": "Node",
+        "module": "ESNext"
+    },
+    "include": ["./modules"]
+}
