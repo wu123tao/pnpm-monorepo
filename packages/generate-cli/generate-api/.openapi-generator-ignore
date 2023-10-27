@@ -1,0 +1,5 @@
+common.ts
+configuration.ts
+git_push.sh
+.npmignore
+.gitignore

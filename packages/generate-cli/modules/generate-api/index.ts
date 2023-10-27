@@ -1,3 +1,6 @@
+import { createJson, generateOpenApi } from './operate.js';
+
 export async function generateApi(params: any) {
-    console.log('接口', params);
+    createJson(params);
+    generateOpenApi();
 }
