@@ -136,6 +136,7 @@ async function initMap() {
                 extensions: 'all',
             });
             // 搜索
+            // 使用搜索功能需要配置安全密钥使用
             autoComplete.value = new AMap.AutoComplete({ city: '全国' });
             placeSearch.value = new AMap.PlaceSearch({ map: map.value });
 
