@@ -10,15 +10,15 @@
         "prepare": "husky install"
     },
     "devDependencies": {
-        "@commitlint/cli": "^17.7.1",
-        "@commitlint/config-conventional": "^17.7.0",
+        "@commitlint/cli": "^18.2.0",
+        "@commitlint/config-conventional": "^18.1.0",
         "@openapitools/openapi-generator-cli": "^2.7.0",
         "@pnpm-monorepo/eslint-config-custom": "workspace:^0.0.0",
         "@vue/tsconfig": "^0.4.0",
         "husky": "^8.0.3",
-        "lint-staged": "^14.0.1",
+        "lint-staged": "^15.0.2",
         "prettier": "^3.0.3",
-        "turbo": "^1.10.14",
+        "turbo": "^1.10.16",
         "typescript": "^5.2.2"
     }
 }
