@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { routes } from '@/router';
 
-const activeIndex = ref<string>(routes[3].path);
+const activeIndex = ref<string>(routes[0].path);
 </script>
 
 <style>
