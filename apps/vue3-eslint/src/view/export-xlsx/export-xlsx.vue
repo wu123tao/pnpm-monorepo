@@ -194,10 +194,12 @@ function exportByExcelJS() {
  */
 async function exportDocx(rows: FileVo[]) {
     const fileData = {
-        first_name: 'John',
-        last_name: 'Doe',
-        phone: '0652455478',
-        description: 'New Website',
+        info: {
+            first_name: 'John',
+            last_name: 'Doe',
+            phone: '0652455478',
+            description: 'New Website',
+        },
         data: rows.length ? rows : tableData.value,
     };
 
