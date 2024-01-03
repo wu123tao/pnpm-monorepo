@@ -33,6 +33,9 @@ const columns: EditTableColumn[] = [
         label: '文件名',
         prop: 'fileName',
         editable: true,
+        elFormItemProps: {
+            rules: [{ required: true, message: '请输入' }],
+        },
     },
     {
         label: '文件大小',
@@ -51,7 +54,7 @@ const columns: EditTableColumn[] = [
 ];
 
 async function getTableData() {
-    const res = await get('/files/list');
+    const res = await get('tools/files/list');
     tableData.value = cloneDeep(res.data);
 }
 
@@ -62,6 +65,7 @@ function doDelete(row: any) {
 }
 
 function mutiDelete(rows: FileVo[]) {
+    console.log(tableData.value);
     console.log(rows);
 }
 </script>

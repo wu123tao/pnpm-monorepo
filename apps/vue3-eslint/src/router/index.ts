@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import i18n from '@/lang';
 
-export const routes: RouteRecordRaw[] = [
+export const routes = computed<RouteRecordRaw[]>(() => [
     {
         path: '/',
         name: '/',
         component: () => import('@/view/home/home.vue'),
         meta: {
-            title: '首页',
+            title: `${i18n.global.t('menu.home')}`,
         },
     },
     {
@@ -14,7 +15,7 @@ export const routes: RouteRecordRaw[] = [
         name: '/file-upload',
         component: () => import('@/view/file-upload/file-upload.vue'),
         meta: {
-            title: '文件上传',
+            title: `${i18n.global.t('menu.upload')}`,
         },
     },
     {
@@ -22,7 +23,7 @@ export const routes: RouteRecordRaw[] = [
         name: '/edit-table',
         component: () => import('@/view/edit-table/table.vue'),
         meta: {
-            title: '编辑表格',
+            title: `${i18n.global.t('menu.editTable')}`,
         },
     },
     {
@@ -30,12 +31,12 @@ export const routes: RouteRecordRaw[] = [
         name: '/export-xlsx',
         component: () => import('@/view/export-xlsx/export-xlsx.vue'),
         meta: {
-            title: '导出表格',
+            title: `${i18n.global.t('menu.exportExcel')}`,
         },
     },
-];
+]);
 
 export const router = createRouter({
     history: createWebHistory(),
-    routes,
+    routes: routes.value,
 });

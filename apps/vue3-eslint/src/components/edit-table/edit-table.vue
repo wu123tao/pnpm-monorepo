@@ -61,22 +61,17 @@
                             v-if="tableEditStatus.columnEditStatus"
                             #default="{ $index, cellIndex, row }"
                         >
-                            <el-form-item
+                            <edit-cell
                                 v-if="
                                     tableEditStatus.columnEditStatus === cellIndex &&
                                     tableEditStatus.rowEditStatus === $index
                                 "
-                                :prop="`tableData.${$index}.${col.prop}`"
-                                v-bind="col.elFormItemProps"
-                            >
-                                <component
-                                    :is="get(maps, col.editComponent ?? 'el-input', 'el-input')"
-                                    style="width: 100%"
-                                    :model-value="row[col.prop ?? '']"
-                                    v-bind="getComponentProps(row, col)"
-                                    @update:model-value="updateData($event, $index, col.prop)"
-                                ></component>
-                            </el-form-item>
+                                :schema="col"
+                                :model-value="row"
+                                :cell-index="cellIndex"
+                                :row-index="$index"
+                                @update:model-value="updateData($event, $index)"
+                            ></edit-cell>
                         </template>
                     </el-table-column>
                 </template>
@@ -103,11 +98,10 @@
 
 <script lang="ts" setup generic="T">
 import { type FormInstance, type TableInstance, type TableProps } from 'element-plus';
-import { cloneDeep, get } from 'lodash-es';
-import { maps } from './config';
+import { cloneDeep } from 'lodash-es';
 import { type EditTableColumn, type Data } from './interface';
 import { InfoFilled, Edit } from '@element-plus/icons-vue';
-import { mergeProps } from 'vue';
+import EditCell from './edit-cell.vue';
 
 const props = withDefaults(
     defineProps<{
@@ -120,10 +114,6 @@ const props = withDefaults(
         shadow?: 'hover' | 'always' | 'never';
         loading?: boolean;
         rowKey?: string;
-        /**
-         * 是否调用接口来删除
-         */
-        useApiDelete?: boolean;
     }>(),
     {
         title: '数据列表',
@@ -135,13 +125,12 @@ const props = withDefaults(
         shadow: 'hover',
         loading: false,
         rowKey: 'id',
-        useApiDelete: false,
     }
 );
 
 const emits = defineEmits<{
     'update:modelValue': [data: Data[]];
-    delete: [data: Data];
+    delete: [index: number, data: Data];
     save: [data: Data];
 }>();
 
@@ -166,67 +155,13 @@ const tableEditStatus = ref<{ rowEditStatus?: number; columnEditStatus?: number 
     columnEditStatus: undefined,
 });
 
-const extraProps = ref<Data>({
-    options: [],
-});
-
-/**
- * 获取资源
- */
-async function getResource(row: Data, col: EditTableColumn): Promise<boolean> {
-    if (col.editComponent !== 'el-select-v2') {
-        return false;
-    }
-
-    if (!col.api) {
-        return false;
-    }
-
-    const res = await col.api(row);
-    extraProps.value = {
-        options: res,
-    };
-
-    return true;
-}
-
-function getComponentProps(row: Data, col: EditTableColumn) {
-    // 默认props
-    const defaultProps = {
-        placeholder: col.label,
-        clearable: true,
-    };
-    if (col.editComponent === 'el-select-v2') {
-        Object.assign(defaultProps, {
-            onVisibleChange: async (val: boolean): Promise<void> => {
-                // 关闭不调用
-                if (!val) {
-                    return;
-                }
-
-                await getResource(row, col);
-            },
-            filterable: true,
-            options: [],
-        });
-    }
-    if (typeof col.componentProps === 'function') {
-        const sec = col.componentProps(row);
-        return mergeProps(defaultProps, extraProps.value, sec);
-    } else {
-        const a = mergeProps(defaultProps, extraProps.value, col.componentProps ?? {});
-
-        return a;
-    }
-}
-
 /**
  * 行数据的原始数据
  */
 const rawData = ref<Record<string, unknown>>({});
 
-function updateData(value: unknown, index: number, celProp?: string) {
-    formData.value.tableData[index][celProp ?? ''] = value;
+function updateData(value: any, index: number) {
+    formData.value.tableData[index] = value;
     emits('update:modelValue', formData.value.tableData);
 }
 
@@ -258,13 +193,7 @@ function handleCancel(index: number) {
 }
 
 function handleDelete(index: number, row: Data) {
-    if (props.useApiDelete) {
-        emits('delete', row);
-    } else {
-        formData.value.tableData.splice(index, 1);
-        emits('update:modelValue', formData.value.tableData);
-        emits('delete', row);
-    }
+    emits('delete', index, row);
 }
 
 async function handleSave(row: Record<string, unknown>) {

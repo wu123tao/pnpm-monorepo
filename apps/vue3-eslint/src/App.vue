@@ -16,14 +16,27 @@
             <el-main>
                 <router-view> </router-view>
             </el-main>
+            <el-affix target=".common-layout" position="bottom" :offset="600">
+                <el-button type="primary" :icon="Tools" @click="openSetting"></el-button>
+            </el-affix>
         </el-container>
+
+        <setting v-model="visible"></setting>
     </div>
 </template>
 
 <script setup lang="ts">
 import { routes } from '@/router';
+import { Tools } from '@element-plus/icons-vue';
+import Setting from './view/setting.vue';
 
-const activeIndex = ref<string>(routes[0].path);
+const activeIndex = ref<string>(routes.value[2].path);
+
+const visible = ref<boolean>(false);
+
+function openSetting() {
+    visible.value = true;
+}
 </script>
 
 <style>
@@ -35,5 +48,9 @@ const activeIndex = ref<string>(routes[0].path);
 }
 .el-header {
     padding: 0;
+}
+.el-affix--fixed {
+    text-align: right;
+    display: inline-block;
 }
 </style>
