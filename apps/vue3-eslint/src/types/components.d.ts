@@ -7,7 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    EditCell: typeof import('./../components/edit-table copy/edit-cell.vue')['default']
+    EditCell: typeof import('./../components/edit-table/edit-cell.vue')['default']
     EditTable: typeof import('./../components/edit-table/edit-table.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElButton: typeof import('element-plus/es')['ElButton']

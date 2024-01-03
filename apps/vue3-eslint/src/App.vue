@@ -30,7 +30,7 @@ import { routes } from '@/router';
 import { Tools } from '@element-plus/icons-vue';
 import Setting from './view/setting.vue';
 
-const activeIndex = ref<string>(routes.value[2].path);
+const activeIndex = ref<string>(routes.value[0].path);
 
 const visible = ref<boolean>(false);
 

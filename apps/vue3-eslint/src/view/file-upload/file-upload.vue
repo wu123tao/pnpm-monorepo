@@ -42,7 +42,7 @@ onMounted(async () => {
 });
 
 async function getTableData() {
-    const res = await get('tools/files/list');
+    const res = await get('/tools/files/list');
 
     tableData.value = res.data;
 }

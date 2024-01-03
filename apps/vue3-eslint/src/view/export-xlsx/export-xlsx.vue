@@ -92,7 +92,7 @@ const columns: EditTableColumn[] = [
 ];
 
 async function getTableData() {
-    const res = await get('/m1/2773621-0-default/getList', { baseURL: 'http://127.0.0.1:4523' });
+    const res = await get('/tools/files/list');
     tableData.value = cloneDeep(res.data);
 }
 
