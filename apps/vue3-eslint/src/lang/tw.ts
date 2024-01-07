@@ -1,6 +1,10 @@
 export default {
     setting: {
-        language: '語言設置',
+        language: {
+            tw: '繁體中文',
+            zh: '簡體中文',
+            en: 'English',
+        },
     },
     menu: {
         home: '首頁',
