@@ -96,7 +96,7 @@ async function handleChange(uploadRequestOptions: UploadRequestOptions) {
     console.log(file);
     console.log(uploadRequestOptions);
 
-    // fileList.value.push(file);
+    fileList.value.push(file);
 }
 
 // 删除文件
@@ -130,7 +130,7 @@ async function uploadFile(file: File, fileIndex: number) {
         console.log(res);
     }
 
-    const res = await post('files/mergeFile', {
+    const res = await post('tools/files/mergeFile', {
         fileName: `${fileData.value.uuid}-${fileData.value.name}`,
         suffix: fileData.value.suffix,
         uuid: fileData.value.uuid,
@@ -153,7 +153,7 @@ async function uploadChunkFile(
     formData.append('file', chunkFile);
     formData.append('uuid', fileData.value.uuid);
 
-    return await post('files/chunkUpload', formData, {
+    return await post('tools/files/chunkUpload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (evt) => {
             percentage.value[fileIndex] = Number(

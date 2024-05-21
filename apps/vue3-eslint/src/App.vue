@@ -43,6 +43,8 @@
 <script setup lang="ts">
 import { routes } from '@/router';
 import i18n from '@/lang';
+import { socket } from '@/utils/socket';
+import { ElNotification } from 'element-plus';
 
 const activeIndex = ref<string>(routes.value[0].path);
 
@@ -50,6 +52,21 @@ function languageSetting(language: 'en' | 'zh' | 'tw') {
     i18n.global.locale.value = language;
     localStorage.setItem('language', language);
 }
+
+onBeforeMount(() => {
+    socket.connect();
+});
+
+onMounted(() => {
+    socket.on('newMessage', (e) => {
+        console.log(e, '%%%');
+        ElNotification.info('有新的文件进行了变更');
+    });
+    socket.on('test', (e) => {
+        console.log(e, '测试socket.io');
+        ElNotification.info('有新的测试数据进来了');
+    });
+});
 </script>
 
 <style>

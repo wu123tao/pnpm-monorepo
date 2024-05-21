@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --host",
+        "dev": "vite --host --port 5173",
         "dev:vue3-eslint": "vite --host",
         "build:vue3-eslint": "vue-tsc --noEmit && vite build",
         "preview": "vite preview",
@@ -20,6 +20,7 @@
         "file-saver": "^2.0.5",
         "lodash-es": "^4.17.21",
         "pizzip": "^3.1.6",
+        "socket.io-client": "^4.7.5",
         "spark-md5": "^3.0.2",
         "uuid": "^9.0.1",
         "vue": "^3.4.21",

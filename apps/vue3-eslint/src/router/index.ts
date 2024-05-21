@@ -11,6 +11,14 @@ export const routes = computed<RouteRecordRaw[]>(() => [
         },
     },
     {
+        path: '/socket-io',
+        name: 'socket-io',
+        component: () => import('@/view/socket-io/socket-io.vue'),
+        meta: {
+            title: `socket-io`,
+        },
+    },
+    {
         path: '/file-upload',
         name: '/file-upload',
         component: () => import('@/view/file-upload/file-upload.vue'),
