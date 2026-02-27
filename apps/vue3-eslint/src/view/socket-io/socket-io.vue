@@ -29,6 +29,10 @@ function handleClose() {
         return;
     }
 }
+
+onBeforeMount(() => {
+    socket.connect();
+});
 </script>
 
 <style></style>

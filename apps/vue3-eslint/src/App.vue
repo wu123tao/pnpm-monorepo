@@ -1,19 +1,19 @@
 <template>
-    <div class="common-layout">
-        <el-container>
-            <el-header>
-                <div class="container">
+    <div class="h-screen">
+        <el-container class="border-red-500 h-screen">
+            <el-header class="p-0!">
+                <div class="border-b border-b-[#dcdfe6] flex items-center">
                     <el-menu
                         :default-active="activeIndex"
-                        class="el-menu-header"
                         mode="horizontal"
                         router
+                        class="border-b-0! w-[95vw]"
                     >
                         <el-menu-item v-for="(item, i) in routes" :key="i" :index="item.path">
                             {{ item.meta?.title }}
                         </el-menu-item>
                     </el-menu>
-                    <div>
+                    <div class="w-[5vw]">
                         <el-dropdown @click="languageSetting">
                             <img src="/language.svg" alt="" width="25" />
                             <template #dropdown>
@@ -43,51 +43,22 @@
 <script setup lang="ts">
 import { routes } from '@/router';
 import i18n from '@/lang';
-import { socket } from '@/utils/socket';
-import { ElNotification } from 'element-plus';
+import { useRoute } from 'vue-router';
 
-const activeIndex = ref<string>(routes.value[0].path);
+const route = useRoute();
+
+const activeIndex = ref<string>('');
 
 function languageSetting(language: 'en' | 'zh' | 'tw') {
     i18n.global.locale.value = language;
     localStorage.setItem('language', language);
 }
 
-onBeforeMount(() => {
-    socket.connect();
-});
-
 onMounted(() => {
-    socket.on('newMessage', (e) => {
-        console.log(e, '%%%');
-        ElNotification.info('有新的文件进行了变更');
-    });
-    socket.on('test', (e) => {
-        console.log(e, '测试socket.io');
-        ElNotification.info('有新的测试数据进来了');
-    });
+    console.log(route);
+    activeIndex.value = route.path;
+    console.log(activeIndex.value);
 });
 </script>
 
-<style>
-.common-layout {
-    height: 100%;
-}
-.el-container {
-    height: 100%;
-}
-.el-header {
-    padding: 0;
-}
-.el-menu-header {
-    border-bottom: unset !important;
-    min-width: 80vw;
-}
-.el-header .container {
-    display: flex;
-    width: 100vw;
-    align-items: center;
-    justify-content: space-around;
-    border-bottom: solid 1px var(--el-menu-border-color);
-}
-</style>
+<style></style>
