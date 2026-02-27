@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
-// import VueDevTools from 'vite-plugin-vue-devtools';
+import VueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite';
 
 const pathSrc = path.resolve(__dirname, 'src');
@@ -28,6 +28,6 @@ export default defineConfig({
             resolvers: [ElementPlusResolver()],
             dts: './src/types/components.d.ts',
         }),
-        // VueDevTools(),
+        VueDevTools(),
     ],
 });
